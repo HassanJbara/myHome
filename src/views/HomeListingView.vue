@@ -70,6 +70,21 @@ const gallery = computed(() => {
   }
 });
 
+function checkFeature(feature: string) {
+  if (
+    feature == "pet_friendly" ||
+    feature == "balcony" ||
+    feature == "clubhouse" ||
+    feature == "dishwasher" ||
+    feature == "elevator" ||
+    feature == "spa" ||
+    feature == "fitness_center" ||
+    feature == "pool" ||
+    feature == "modern_kitchen"
+  )
+    return this_home.value?.features[feature];
+}
+
 const showImg = (index: number) => {
   indexRef.value = index;
   visibleRef.value = true;
@@ -237,16 +252,14 @@ onMounted(() => {
             >
               <inline-svg
                 :src="
-                  this_home?.features[feature_text]
+                  checkFeature(feature_text)
                     ? './icons/checked-tick.svg'
                     : './icons/checked-cross.svg'
                 "
                 width="20px"
                 height="20px"
                 class="self-center"
-                :fill="
-                  this_home?.features[feature_text] ? '#23D160' : '#FF3860'
-                "
+                :fill="checkFeature(feature_text) ? '#23D160' : '#FF3860'"
               />
               {{ feature_text }}
             </div>
@@ -259,16 +272,14 @@ onMounted(() => {
             >
               <inline-svg
                 :src="
-                  this_home?.features[feature_text]
+                  checkFeature(feature_text)
                     ? './icons/checked-tick.svg'
                     : './icons/checked-cross.svg'
                 "
                 width="20px"
                 height="20px"
                 class="self-center"
-                :fill="
-                  this_home?.features[feature_text] ? '#23D160' : '#FF3860'
-                "
+                :fill="checkFeature(feature_text) ? '#23D160' : '#FF3860'"
               />
               {{ feature_text }}
             </div>

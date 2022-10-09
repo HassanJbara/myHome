@@ -69,15 +69,15 @@ const props = withDefaults(defineProps<Props>(), {
         <div class="media-left">
           <figure class="image is-48x48">
             <img
-              :src="props.home.agent.agent_img"
+              :src="props.home.agent?.agent_img"
               alt="Agent Image"
               class="rounded-lg"
             />
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{{ props.home.agent.agent_name }}</p>
-          <p class="subtitle is-5">{{ props.home.agent.agent_twitter }}</p>
+          <p class="title is-4">{{ props.home.agent?.agent_name }}</p>
+          <p class="subtitle is-5">{{ props.home.agent?.agent_twitter }}</p>
         </div>
       </div>
     </div>

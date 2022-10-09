@@ -12,7 +12,31 @@ import type { HomesNewProperty } from "@/modules/homes";
 const home_types = ["Appartment", "Duplex", "House", "Studio"];
 const property_types = ["Rent", "Sale"];
 
-const dataDict = ref<HomesNewProperty>();
+const initialHome: HomesNewProperty = {
+  info: {
+    home_name: "",
+    home_type: "",
+    cold_rent: 0,
+    warm_rent: 0,
+    property_type: "",
+    listing_text: "",
+  },
+  address: { city: "", street: "", house_number: 0, plz: "" },
+  features: {
+    pet_friendly: false,
+    balcony: false,
+    clubhouse: false,
+    dishwasher: false,
+    elevator: false,
+    spa: false,
+    fitness_center: false,
+    pool: false,
+    modern_kitchen: false,
+  },
+  specifications: { rooms: 0, baths: 0, space: 0 },
+};
+const dataDict = ref<HomesNewProperty>(initialHome);
+
 dataDict.value = {
   info: {
     home_name: "",
@@ -54,25 +78,43 @@ const validators = computed(() => ({
 function changeSpecification(specifications: "rooms" | "baths" | "space") {
   const newValue = (document.getElementById(specifications) as HTMLInputElement)
     .value;
-  if (dataDict.value) {
-    dataDict.value.specifications[specifications] = parseInt(newValue);
-  }
+  dataDict.value.specifications[specifications] = parseInt(newValue);
 }
 
-function changeFeature(feature: string) {
+function changeFeature(
+  feature:
+    | "pet_friendly"
+    | "balcony"
+    | "clubhouse"
+    | "dishwasher"
+    | "elevator"
+    | "spa"
+    | "fitness_center"
+    | "pool"
+    | "modern_kitchen"
+) {
   dataDict.value.features[feature] = !dataDict.value.features[feature];
 }
 
 function onSubmit() {
-  if (dataDict.value) {
-    for (const validator in validators.value) {
-      console.log(validator);
+  for (const validator in validators.value) {
+    if (
+      validator == "has_name" ||
+      validator == "has_city" ||
+      validator == "has_street" ||
+      validator == "has_house_number" ||
+      validator == "has_plz" ||
+      validator == "has_rooms" ||
+      validator == "has_baths" ||
+      validator == "has_space" ||
+      validator == "house_number_is_valid" ||
+      validator == "plz_is_valid"
+    )
       if (!validators.value[validator]) {
         return;
       }
-    }
-    homes.addProperty(dataDict.value);
   }
+  homes.addProperty(dataDict.value);
 }
 
 function capitalizeFirstLetter(label: string) {
