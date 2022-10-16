@@ -6,7 +6,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types" : ["node", "lodash", "express", "zone.js"]
+    "types" : ["node"]
   },
 
   "references": [
