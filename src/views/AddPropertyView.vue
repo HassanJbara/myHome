@@ -3,14 +3,20 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import homes from "@/api/modules/homes";
+import { useAuthStore } from "@/stores/AuthStore";
+import { useMessage } from "naive-ui";
+import _ from "lodash";
 
 import InlineSvg from "vue-inline-svg";
 
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import type { HomesNewProperty } from "@/modules/homes";
+import * as homesTypes from "@/modules/homes";
 
-const home_types = ["Appartment", "Duplex", "House", "Studio"];
-const property_types = ["Rent", "Sale"];
+const authStore = useAuthStore();
+const message = useMessage();
+
+const token = ref<string>();
 
 const initialHome: HomesNewProperty = {
   info: {
@@ -40,8 +46,8 @@ const dataDict = ref<HomesNewProperty>(initialHome);
 dataDict.value = {
   info: {
     home_name: "",
-    home_type: home_types[0],
-    property_type: property_types[0],
+    home_type: homesTypes.home_types[0],
+    property_type: homesTypes.property_types[0],
     listing_text: "",
     cold_rent: 0,
     warm_rent: 0,
@@ -97,30 +103,47 @@ function changeFeature(
 }
 
 function onSubmit() {
-  for (const validator in validators.value) {
-    if (
-      validator == "has_name" ||
-      validator == "has_city" ||
-      validator == "has_street" ||
-      validator == "has_house_number" ||
-      validator == "has_plz" ||
-      validator == "has_rooms" ||
-      validator == "has_baths" ||
-      validator == "has_space" ||
-      validator == "house_number_is_valid" ||
-      validator == "plz_is_valid"
-    )
-      if (!validators.value[validator]) {
-        return;
+  // for (const validator in validators.value) {
+  //   if (
+  //     validator == "has_name" ||
+  //     validator == "has_city" ||
+  //     validator == "has_street" ||
+  //     validator == "has_house_number" ||
+  //     validator == "has_plz" ||
+  //     validator == "has_rooms" ||
+  //     validator == "has_baths" ||
+  //     validator == "has_space" ||
+  //     validator == "house_number_is_valid" ||
+  //     validator == "plz_is_valid"
+  //   )
+  //     if (!validators.value[validator]) {
+  //       return;
+  //     }
+  // }
+  if (token.value) {
+    homes.addProperty(dataDict.value, token.value).then(
+      () => {
+        message.success("Success. Property submitted for reviewing.");
+      },
+      (errorData) => {
+        message.error(errorData.response.data.error);
       }
+    );
+  } else {
+    console.error("Token is not set");
   }
-  homes.addProperty(dataDict.value);
 }
 
-function capitalizeFirstLetter(label: string) {
-  const result = label.charAt(0).toUpperCase() + label.slice(1);
-  return result.replace(/_/g, " ");
-}
+onMounted(() => {
+  const user = authStore.getUser;
+  console.log(user);
+  if (!user) {
+    console.log("HEY");
+    authStore.LOGIN({ username: "admin", password: "root" });
+  }
+  console.log(authStore.getUser?.name);
+  token.value = authStore.getToken;
+});
 </script>
 
 <template>
@@ -153,11 +176,11 @@ function capitalizeFirstLetter(label: string) {
               <div class="select w-full">
                 <select class="w-full" v-model="dataDict.info.home_type">
                   <option
-                    v-for="(option, index) in home_types"
+                    v-for="(option, index) in homesTypes.home_types"
                     :key="index"
                     :value="option"
                   >
-                    {{ option }}
+                    {{ _.capitalize(option) }}
                   </option>
                 </select>
               </div>
@@ -167,11 +190,11 @@ function capitalizeFirstLetter(label: string) {
               <div class="select">
                 <select class="w-full" v-model="dataDict.info.property_type">
                   <option
-                    v-for="(option, index) in property_types"
+                    v-for="(option, index) in homesTypes.property_types"
                     :key="index"
                     :value="option"
                   >
-                    {{ option }}
+                    {{ _.capitalize(option) }}
                   </option>
                 </select>
               </div>
@@ -238,7 +261,7 @@ function capitalizeFirstLetter(label: string) {
             :key="index"
             class="flex flex-col"
           >
-            <label class="label">{{ capitalizeFirstLetter(label) }}</label>
+            <label class="label">{{ _.capitalize(label) }}</label>
             <div class="control">
               <input
                 class="input"
@@ -261,7 +284,7 @@ function capitalizeFirstLetter(label: string) {
             :key="index"
           >
             <input type="checkbox" @change="changeFeature(label)" />
-            {{ capitalizeFirstLetter(label) }}
+            {{ _.startCase(label) }}
           </label>
         </div>
 
@@ -276,6 +299,7 @@ function capitalizeFirstLetter(label: string) {
               type="text"
               v-model="dataDict.address.city"
               placeholder="city"
+              required
             />
           </div>
         </div>
@@ -289,6 +313,7 @@ function capitalizeFirstLetter(label: string) {
               type="text"
               v-model="dataDict.address.street"
               placeholder="street"
+              required
             />
           </div>
         </div>
@@ -302,6 +327,7 @@ function capitalizeFirstLetter(label: string) {
               type="number"
               v-model="dataDict.address.house_number"
               placeholder="house number"
+              required
             />
           </div>
         </div>
@@ -317,6 +343,7 @@ function capitalizeFirstLetter(label: string) {
               placeholder="plz"
               min="10000"
               max="99999"
+              required
             />
           </div>
         </div>

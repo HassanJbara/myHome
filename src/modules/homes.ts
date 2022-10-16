@@ -1,5 +1,11 @@
 import type { Agent } from "@/modules/agents";
 
+export const home_types = ["APPARTMENT", "DUPLEX", "HOUSE", "STUDIO"] as const;
+export const property_types = ["RENT", "SALE"] as const;
+
+export type home_type = typeof home_types[number];
+export type property_type = typeof property_types[number];
+
 export interface HomeSpecifications {
   rooms: number;
   baths: number;
@@ -31,7 +37,7 @@ export interface Home {
   id: number;
   home_name: string;
   home_img_main: string | undefined;
-  home_type: string;
+  home_type: home_type;
   listing_text: string;
   agent: Agent | undefined;
   total_rent: number;
@@ -40,7 +46,7 @@ export interface Home {
   specifications: HomeSpecifications;
   features: HomeFeatures;
   address: HomeAddress;
-  property_type: "RENT" | "SALE";
+  property_type: property_type;
   gallery_images: string[];
 }
 
