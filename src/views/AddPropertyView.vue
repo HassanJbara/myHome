@@ -131,18 +131,30 @@ function onSubmit() {
     );
   } else {
     console.error("Token is not set");
+    fetchToken();
+    if (token.value) {
+      homes.addProperty(dataDict.value, token.value).then(
+        () => {
+          message.success("Success. Property submitted for reviewing.");
+        },
+        (errorData) => {
+          message.error(errorData.response.data.error);
+        }
+      );
+    }
   }
 }
 
-onMounted(() => {
+function fetchToken() {
   const user = authStore.getUser;
-  console.log(user);
   if (!user) {
-    console.log("HEY");
     authStore.LOGIN({ username: "admin", password: "root" });
   }
-  console.log(authStore.getUser?.name);
   token.value = authStore.getToken;
+}
+
+onMounted(() => {
+  fetchToken();
 });
 </script>
 
