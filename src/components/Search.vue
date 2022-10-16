@@ -104,11 +104,11 @@ const rent = ref(100);
 async function search() {
   HomesStore.search({
     city: cityChoice.value,
-    home_type: purposeChoice.value,
-    property_type: propertyTypeChoice.value,
+    home_type: propertyTypeChoice.value,
+    property_type: purposeChoice.value,
     rooms: bedroomChoice.value,
     features: homeFeatures.value?.join(","),
-    rent: rent.value,
+    rent: purposeChoice.value ? rent.value : null, //Rent should be reset if necessary, thus null
   });
   emit("searched");
 }
@@ -153,7 +153,12 @@ function formatTooltip(value: number) {
           :class="props.type == 'vertical' ? '' : 'w-1/3'"
         >
           <span class="font-semibold self-center">City:</span>
-          <n-input v-model:value="cityChoice" type="text" placeholder="City" />
+          <n-input
+            v-model:value="cityChoice"
+            type="text"
+            placeholder="City"
+            clearable
+          />
         </n-space>
 
         <n-collapse
@@ -177,7 +182,11 @@ function formatTooltip(value: number) {
           </n-collapse-item>
         </n-collapse>
 
-        <n-space vertical :class="props.type == 'vertical' ? 'mt-6' : 'w-1/3'">
+        <n-space
+          v-show="purposeChoice || props.type == 'horizontal'"
+          vertical
+          :class="props.type == 'vertical' ? 'mt-6' : 'w-1/3'"
+        >
           <span class="font-semibold self-center">
             {{ purposeChoice == "RENT" ? "Rent" : "Price" }}
           </span>
@@ -208,6 +217,7 @@ function formatTooltip(value: number) {
           <n-select
             v-model:value="propertyTypeChoice"
             :options="propertyTypeOprions"
+            clearable
           />
         </n-space>
 
@@ -217,7 +227,11 @@ function formatTooltip(value: number) {
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
           <span class="font-semibold self-center">Purpose:</span>
-          <n-select v-model:value="purposeChoice" :options="purposeOptions" />
+          <n-select
+            v-model:value="purposeChoice"
+            :options="purposeOptions"
+            clearable
+          />
         </n-space>
 
         <n-space
@@ -226,7 +240,11 @@ function formatTooltip(value: number) {
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
           <span class="font-semibold self-center">Bedrooms:</span>
-          <n-select v-model:value="bedroomChoice" :options="bedroomsOptions" />
+          <n-select
+            v-model:value="bedroomChoice"
+            :options="bedroomsOptions"
+            clearable
+          />
         </n-space>
 
         <n-space
@@ -235,7 +253,11 @@ function formatTooltip(value: number) {
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
           <span class="font-semibold self-center">Bathrooms:</span>
-          <n-select v-model:value="bathsChoice" :options="bathsOptions" />
+          <n-select
+            v-model:value="bathsChoice"
+            :options="bathsOptions"
+            clearable
+          />
         </n-space>
       </div>
     </div>

@@ -43,30 +43,6 @@ const initialHome: HomesNewProperty = {
 };
 const dataDict = ref<HomesNewProperty>(initialHome);
 
-dataDict.value = {
-  info: {
-    home_name: "",
-    home_type: homesTypes.home_types[0],
-    property_type: homesTypes.property_types[0],
-    listing_text: "",
-    cold_rent: 0,
-    warm_rent: 0,
-  },
-  address: { city: "", street: "", house_number: 0, plz: "" },
-  features: {
-    pet_friendly: false,
-    balcony: false,
-    clubhouse: false,
-    dishwasher: false,
-    elevator: false,
-    spa: false,
-    fitness_center: false,
-    pool: false,
-    modern_kitchen: false,
-  },
-  specifications: { rooms: 0, baths: 0, space: 0 },
-};
-
 const validators = computed(() => ({
   has_name: !!dataDict.value?.info.home_name,
   has_city: !!dataDict.value?.address.city,
@@ -78,6 +54,10 @@ const validators = computed(() => ({
   has_space: !!dataDict.value?.specifications.space,
   house_number_is_valid:
     parseInt(String(dataDict?.value?.address.house_number)) >= 1,
+  house_cold_rent_is_valid:
+    parseInt(String(dataDict?.value?.info.cold_rent)) >= 100,
+  house_warm_rent_is_valid:
+    parseInt(String(dataDict?.value?.info.warm_rent)) >= 100,
   plz_is_valid: parseInt(String(dataDict?.value?.address.plz)) >= 10000,
 }));
 
@@ -114,6 +94,8 @@ function onSubmit() {
       validator == "has_baths" ||
       validator == "has_space" ||
       validator == "house_number_is_valid" ||
+      validator == "house_cold_rent_is_valid" ||
+      validator == "house_warm_rent_is_valid" ||
       validator == "plz_is_valid"
     )
       if (!validators.value[validator]) {
@@ -123,6 +105,7 @@ function onSubmit() {
   if (token.value) {
     homes.addProperty(dataDict.value, token.value).then(
       () => {
+        clearFields();
         message.success("Success. Property submitted for reviewing.");
       },
       (errorData) => {
@@ -135,6 +118,7 @@ function onSubmit() {
     if (token.value) {
       homes.addProperty(dataDict.value, token.value).then(
         () => {
+          clearFields();
           message.success("Success. Property submitted for reviewing.");
         },
         (errorData) => {
@@ -153,8 +137,39 @@ function fetchToken() {
   token.value = authStore.getToken;
 }
 
+function clearFields() {
+  dataDict.value = {
+    info: {
+      home_name: "",
+      home_type: homesTypes.home_types[0],
+      property_type: homesTypes.property_types[0],
+      listing_text: "",
+      cold_rent: 0,
+      warm_rent: 0,
+    },
+    address: { city: "", street: "", house_number: 0, plz: "" },
+    features: {
+      pet_friendly: false,
+      balcony: false,
+      clubhouse: false,
+      dishwasher: false,
+      elevator: false,
+      spa: false,
+      fitness_center: false,
+      pool: false,
+      modern_kitchen: false,
+    },
+    specifications: { rooms: 0, baths: 0, space: 0 },
+  };
+
+  (document.getElementById("rooms") as HTMLInputElement).value = "";
+  (document.getElementById("space") as HTMLInputElement).value = "";
+  (document.getElementById("baths") as HTMLInputElement).value = "";
+}
+
 onMounted(() => {
   fetchToken();
+  clearFields();
 });
 </script>
 
