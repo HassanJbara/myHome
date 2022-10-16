@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { NMessageProvider } from "naive-ui";
+
+document.title = "myHome";
 </script>
 
 <template>
