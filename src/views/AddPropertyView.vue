@@ -103,23 +103,23 @@ function changeFeature(
 }
 
 function onSubmit() {
-  // for (const validator in validators.value) {
-  //   if (
-  //     validator == "has_name" ||
-  //     validator == "has_city" ||
-  //     validator == "has_street" ||
-  //     validator == "has_house_number" ||
-  //     validator == "has_plz" ||
-  //     validator == "has_rooms" ||
-  //     validator == "has_baths" ||
-  //     validator == "has_space" ||
-  //     validator == "house_number_is_valid" ||
-  //     validator == "plz_is_valid"
-  //   )
-  //     if (!validators.value[validator]) {
-  //       return;
-  //     }
-  // }
+  for (const validator in validators.value) {
+    if (
+      validator == "has_name" ||
+      validator == "has_city" ||
+      validator == "has_street" ||
+      validator == "has_house_number" ||
+      validator == "has_plz" ||
+      validator == "has_rooms" ||
+      validator == "has_baths" ||
+      validator == "has_space" ||
+      validator == "house_number_is_valid" ||
+      validator == "plz_is_valid"
+    )
+      if (!validators.value[validator]) {
+        return;
+      }
+  }
   if (token.value) {
     homes.addProperty(dataDict.value, token.value).then(
       () => {
