@@ -40,9 +40,7 @@ export interface Home {
   home_type: home_type;
   listing_text: string;
   agent: Agent | undefined;
-  total_rent: number;
-  cold_rent: number;
-  warm_rent: number;
+  rent: number;
   specifications: HomeSpecifications;
   features: HomeFeatures;
   address: HomeAddress;
@@ -56,8 +54,7 @@ export interface HomesNewProperty {
     home_type: string;
     property_type: string;
     listing_text: string;
-    cold_rent: number;
-    warm_rent: number;
+    rent: number;
   };
   address: { city: string; street: string; house_number: number; plz: string };
   features: {

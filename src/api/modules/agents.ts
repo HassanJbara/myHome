@@ -1,5 +1,5 @@
 import type { AxiosPromise } from "axios";
-import axiosAPI from "@/api/axios";
+import { axiosAPI } from "@/api/axios";
 import type { Agent } from "@/modules/agents";
 
 const agents = {

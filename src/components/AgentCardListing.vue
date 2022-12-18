@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {});
     </div>
     <div class="card-content">
       <div class="media">
-        <div class="media-content">
+        <div class="media-content overflow-hidden">
           <p class="title is-4">{{ props.agent.agent_name }}</p>
           <p class="subtitle is-6">{{ props.agent.agent_job }}</p>
         </div>

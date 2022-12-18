@@ -12,7 +12,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.9.72",
+    "@fawmi/vue-google-maps": "^0.9.79",
     "axios": "^0.27.2",
     "express": "^4.18.2",
     "fs-extra": "^10.1.0",

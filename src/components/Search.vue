@@ -18,6 +18,7 @@ import { useHomesStore } from "@/stores/HomesStore";
 
 interface Props {
   type?: "vertical" | "horizontal";
+  mobile: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -239,7 +240,7 @@ function formatTooltip(value: number) {
           size="medium"
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
-          <span class="font-semibold self-center">Bedrooms:</span>
+          <span class="font-semibold self-center">Beds:</span>
           <n-select
             v-model:value="bedroomChoice"
             :options="bedroomsOptions"
@@ -252,7 +253,7 @@ function formatTooltip(value: number) {
           size="medium"
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
-          <span class="font-semibold self-center">Bathrooms:</span>
+          <span class="font-semibold self-center">Baths:</span>
           <n-select
             v-model:value="bathsChoice"
             :options="bathsOptions"

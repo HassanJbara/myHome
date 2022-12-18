@@ -5,6 +5,12 @@ import { onMounted, computed } from "vue";
 
 const HomesStore = useHomesStore();
 
+interface Props {
+  mobile: boolean;
+}
+
+const props = defineProps<Props>();
+
 const homeListings = computed(() => {
   const number_of_homes = HomesStore.getHomes.length;
   return HomesStore.getHomes.slice(number_of_homes - 6, number_of_homes); // Only last 6
@@ -52,6 +58,7 @@ onMounted(() => {
           v-for="(listing, index) in homes_halfs('first')"
           :key="index"
           :home="listing"
+          :mobile="props.mobile"
           class="m-2 w-4/12"
         />
       </div>
@@ -63,11 +70,10 @@ onMounted(() => {
           v-for="(listing, index) in homes_halfs('second')"
           :key="index"
           :home="listing"
+          :mobile="props.mobile"
           class="m-2 w-4/12"
         />
       </div>
     </div>
   </div>
 </template>
-
-<style></style>

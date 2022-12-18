@@ -5,10 +5,13 @@ import type { Home } from "@/modules/homes";
 interface Props {
   home: Home;
   type?: "tall" | "wide";
+  mobile: boolean;
+  showAgent?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: "tall",
+  showAgent: true,
 });
 </script>
 
@@ -54,9 +57,7 @@ const props = withDefaults(defineProps<Props>(), {
           </div>
           <div class="column is-half">
             <div class="mb-4 text-center">
-              <span class="font-bold text-lg"
-                >{{ props.home.total_rent }}€</span
-              >
+              <span class="font-bold text-lg">{{ props.home.rent }}€</span>
               <span>
                 {{ props.home.property_type == "RENT" ? " / mo" : "" }}</span
               >
@@ -65,7 +66,11 @@ const props = withDefaults(defineProps<Props>(), {
         </div>
       </div>
 
-      <div class="media">
+      <div
+        class="media"
+        :class="props.mobile ? 'flex flex-col' : ''"
+        v-show="props.showAgent"
+      >
         <div class="media-left">
           <figure class="image is-48x48">
             <img
@@ -91,7 +96,7 @@ const props = withDefaults(defineProps<Props>(), {
           class="mr-2"
         />
         <span class="whitespace-nowrap overflow-hidden">
-          {{ props.home.specifications.rooms }} Rooms
+          {{ props.home.specifications.rooms }}
         </span>
       </span>
       <span class="card-footer-item">
@@ -102,7 +107,7 @@ const props = withDefaults(defineProps<Props>(), {
           class="mr-2"
         />
         <span class="whitespace-nowrap overflow-hidden">
-          {{ props.home.specifications.baths }} Baths
+          {{ props.home.specifications.baths }}
         </span>
       </span>
       <span class="card-footer-item">
@@ -153,7 +158,7 @@ const props = withDefaults(defineProps<Props>(), {
       </div>
 
       <div class="mb-4 w-full text-center">
-        <span class="font-bold text-lg">{{ props.home.total_rent }}€</span>
+        <span class="font-bold text-lg">{{ props.home.rent }}€</span>
         <span>{{ props.home.property_type == "RENT" ? " / mo" : "" }}</span>
       </div>
 
@@ -165,7 +170,7 @@ const props = withDefaults(defineProps<Props>(), {
             height="20"
             class="mr-2"
           />
-          {{ props.home.specifications.rooms }} Rooms
+          {{ props.home.specifications.rooms }}
         </span>
         <span class="card-footer-item">
           <inline-svg
@@ -174,7 +179,7 @@ const props = withDefaults(defineProps<Props>(), {
             height="20"
             class="mr-2"
           />
-          {{ props.home.specifications.baths }} Baths
+          {{ props.home.specifications.baths }}
         </span>
         <span class="card-footer-item">
           <inline-svg

@@ -2,11 +2,10 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import AgentCard from "@/components/AgentCard.vue";
-import api from "@/api";
-import type { Home } from "@/modules/homes";
 import { useHomesStore } from "@/stores/HomesStore";
 import { useRouter } from "vue-router";
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
+import _ from "lodash";
 
 import VueEasyLightbox from "vue-easy-lightbox";
 import InlineSvg from "vue-inline-svg";
@@ -14,12 +13,16 @@ import InlineSvg from "vue-inline-svg";
 const router = useRouter();
 const HomesStore = useHomesStore();
 
+const key = "AIzaSyCN6tP3i10XQ2uBISjbG8kqSI-H-w54TVo";
+
 const param_id = String(router.currentRoute.value.params.id);
 const this_home = computed(() => HomesStore.getHomeByID(parseInt(param_id)));
 
 function features_halfs(half: "first" | "second") {
   if (this_home.value) {
+    if (!this_home.value.features) return [];
     const features_keys = Object.keys(this_home.value.features);
+    console.log(features_keys);
     const half_length = Math.ceil(features_keys.length / 2);
     if (half == "first") {
       return features_keys.splice(0, half_length);
@@ -27,30 +30,9 @@ function features_halfs(half: "first" | "second") {
       return features_keys.splice(half_length, features_keys.length);
     }
   } else {
-    return;
+    return [];
   }
 }
-
-// Address Stuff
-const address = computed(() => {
-  return {
-    lat: this_home.value?.address.latitude,
-    lng: this_home.value?.address.longitude,
-  };
-});
-
-const wazeAddress = computed(() => {
-  return (
-    "https://embed.waze.com/iframe?zoom=12&lat=" +
-    String(address.value.lat) +
-    "&lon=" +
-    String(address.value.lng) +
-    "&pin=1"
-  );
-});
-
-const showMap = ref(false);
-
 // Gallery Stuff
 const visibleRef = ref(false);
 const indexRef = ref(0);
@@ -92,9 +74,8 @@ const showImg = (index: number) => {
 
 const onHide = () => (visibleRef.value = false);
 
-onMounted(() => {
+onBeforeMount(() => {
   HomesStore.fill();
-  showMap.value = true;
 });
 </script>
 
@@ -111,8 +92,8 @@ onMounted(() => {
     <nav class="level mt-10">
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Rent</p>
-          <p class="title">{{ this_home?.total_rent }}$</p>
+          <p class="heading">{{ this_home?.property_type }}</p>
+          <p class="title">{{ this_home?.rent }}$</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -261,7 +242,7 @@ onMounted(() => {
                 class="self-center"
                 :fill="checkFeature(feature_text) ? '#23D160' : '#FF3860'"
               />
-              {{ feature_text }}
+              {{ _.startCase(feature_text) }}
             </div>
           </div>
           <div class="column">
@@ -281,7 +262,7 @@ onMounted(() => {
                 class="self-center"
                 :fill="checkFeature(feature_text) ? '#23D160' : '#FF3860'"
               />
-              {{ feature_text }}
+              {{ _.startCase(feature_text) }}
             </div>
           </div>
         </div>
@@ -331,12 +312,23 @@ onMounted(() => {
             class="column is-two-thirds flex flex-row items-center justify-center"
           >
             <iframe
-              v-show="showMap"
-              :src="wazeAddress"
               width="90%"
               height="400"
-              class="block self-center ml-5"
-            ></iframe>
+              style="border: 0"
+              class="rounded-xl"
+              loading="lazy"
+              allowfullscreen
+              :src="
+                'https://www.google.com/maps/embed/v1/place?key=' +
+                key +
+                '&q=' +
+                this_home?.address.street +
+                this_home?.address.house_number +
+                ', ' +
+                this_home?.address.plz +
+                this_home?.address.city
+              "
+            />
           </div>
         </div>
       </div>

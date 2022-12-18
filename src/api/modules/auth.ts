@@ -1,5 +1,5 @@
 import type { AxiosPromise } from "axios";
-import axiosWithAuth from "@/api/axios";
+import { axiosWithAuth } from "@/api/axios";
 
 export interface LoginCallback {
   token: string;

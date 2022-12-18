@@ -4,6 +4,7 @@ import MainMenu from "./MainMenu.vue";
 
 interface Props {
   withSearch: boolean;
+  mobile: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,7 +20,11 @@ const props = withDefaults(defineProps<Props>(), {
       class="text-white text-center text-3xl mx-4 mt-12 font-bold"
       >Find the Best Property for Rent or Sale</span
     >
-    <Search v-if="props.withSearch" class="overflow-x-auto" />
+    <Search
+      v-if="props.withSearch"
+      class="overflow-x-auto"
+      :mobile="props.mobile"
+    />
   </header>
 </template>
 

@@ -22,8 +22,7 @@ const initialHome: HomesNewProperty = {
   info: {
     home_name: "",
     home_type: "",
-    cold_rent: 0,
-    warm_rent: 0,
+    rent: 0,
     property_type: "",
     listing_text: "",
   },
@@ -54,10 +53,7 @@ const validators = computed(() => ({
   has_space: !!dataDict.value?.specifications.space,
   house_number_is_valid:
     parseInt(String(dataDict?.value?.address.house_number)) >= 1,
-  house_cold_rent_is_valid:
-    parseInt(String(dataDict?.value?.info.cold_rent)) >= 100,
-  house_warm_rent_is_valid:
-    parseInt(String(dataDict?.value?.info.warm_rent)) >= 100,
+  house_rent_is_valid: parseInt(String(dataDict?.value?.info.rent)) >= 100,
   plz_is_valid: parseInt(String(dataDict?.value?.address.plz)) >= 10000,
 }));
 
@@ -94,8 +90,7 @@ function onSubmit() {
       validator == "has_baths" ||
       validator == "has_space" ||
       validator == "house_number_is_valid" ||
-      validator == "house_cold_rent_is_valid" ||
-      validator == "house_warm_rent_is_valid" ||
+      validator == "house_rent_is_valid" ||
       validator == "plz_is_valid"
     )
       if (!validators.value[validator]) {
@@ -144,8 +139,7 @@ function clearFields() {
       home_type: homesTypes.home_types[0],
       property_type: homesTypes.property_types[0],
       listing_text: "",
-      cold_rent: 0,
-      warm_rent: 0,
+      rent: 0,
     },
     address: { city: "", street: "", house_number: 0, plz: "" },
     features: {
@@ -175,7 +169,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <Header :with-search="false" />
+    <Header :with-search="false" :mobile="false" />
     <h1 class="mt-4 font-bold text-3xl w-full text-center">Add New Property</h1>
 
     <div class="flex flex-row justify-center">
@@ -233,35 +227,13 @@ onMounted(() => {
             class="flex flex-row gap-8 mt-4 w-full self-center justify-center"
           >
             <div class="flex flex-col">
-              <label class="label">Cold Rent</label>
+              <label class="label">Rent</label>
               <div class="control has-icons-right">
                 <input
                   class="input"
                   type="number"
-                  v-model="dataDict.info.cold_rent"
-                  placeholder="cold rent"
-                  min="100"
-                  required
-                />
-                <span class="icon is-small is-right">
-                  <inline-svg
-                    src="./icons/euro.svg"
-                    fill="#B3E0FF"
-                    width="50%"
-                    height="50%"
-                  />
-                </span>
-              </div>
-            </div>
-
-            <div class="flex flex-col">
-              <label class="label">Warm Rent</label>
-              <div class="control has-icons-right">
-                <input
-                  class="input"
-                  type="number"
-                  v-model="dataDict.info.warm_rent"
-                  placeholder="warm rent"
+                  v-model="dataDict.info.rent"
+                  placeholder="rent "
                   min="100"
                 />
                 <span class="icon is-small is-right">

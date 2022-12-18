@@ -3,6 +3,7 @@ import HomeListingCard from "@/components/HomeListingCard.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Search from "@/components/Search.vue";
+import HomesMap from "@/components/HomesMap.vue";
 import { useHomesStore } from "@/stores/HomesStore";
 
 import { onMounted, computed, ref, onUnmounted } from "vue";
@@ -105,6 +106,26 @@ function nextPage() {
   }
 }
 
+const isMobile = computed(() => {
+  if ("maxTouchPoints" in navigator) {
+    return navigator.maxTouchPoints > 0;
+  } else {
+    const mQ = matchMedia?.("(pointer:coarse)");
+    if (mQ?.media === "(pointer:coarse)") {
+      return !!mQ.matches;
+    } else if ("orientation" in window) {
+      return true; // deprecated, but good fallback
+    } else {
+      // Only as a last resort, fall back to user agent sniffing
+      const UA = navigator.userAgent;
+      return (
+        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+      );
+    }
+  }
+});
+
 onMounted(() => {
   const searchedHomes = HomesStore.getSearchedHomes;
   // const allHomes = HomesStore.getHomes;
@@ -121,28 +142,33 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <Header :with-search="false" />
-    <div class="columns mt-4">
-      <div class="column is-one-quarter is-offset-1">
+    <Header :with-search="false" :mobile="isMobile" />
+    <div class="columns mt-4 w-full">
+      <div class="column is-one-quarter">
         <div class="box m-4">
           <Search
             class="overflow-x-auto w-full"
             type="vertical"
             @searched="onSearch"
+            :mobile="isMobile"
           />
         </div>
       </div>
-      <div class="column is-half m-4 h-full overflow-y-auto">
+      <div class="column is-one-quarter h-full overflow-y-auto">
         <h2 class="text-2xl font-semibold">{{ headerText }}</h2>
         <HomeListingCard
           v-for="index in entriesToDisplay"
           :key="index"
           :home="homeListings[index]"
-          type="wide"
+          type="tall"
           class="my-4"
+          :mobile="isMobile"
+          :show-agent="false"
         />
       </div>
-      <div class="column is-one-fifth"></div>
+      <div class="column is-half">
+        <HomesMap></HomesMap>
+      </div>
     </div>
     <div class="flex flex-row justify-center">
       <nav
@@ -182,5 +208,3 @@ onUnmounted(() => {
     <Footer />
   </main>
 </template>
-
-<style></style>
