@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InlineSvg from "vue-inline-svg";
-import type { Home } from "@/modules/homes";
+import type { Home } from "@/modules";
 
 interface Props {
   home: Home;

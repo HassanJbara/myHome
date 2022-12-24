@@ -1,5 +1,11 @@
+export { default as AgentCardListing } from "./AgentCardListing.vue";
+export { default as HomeListingCard } from "./HomeListingCard.vue";
+export { default as MapInfoWindow } from "./MapInfoWindow.vue";
+export { default as AgentListings } from "./AgentListings.vue";
+export { default as HomeListings } from "./HomeListings.vue";
+export { default as AgentCard } from "./AgentCard.vue";
+export { default as MainMenu } from "./MainMenu.vue";
+export { default as HomesMap } from "./HomesMap.vue";
 export { default as Header } from "./Header.vue";
 export { default as Footer } from "./Footer.vue";
 export { default as Search } from "./Search.vue";
-export { default as MapInfoWindow } from "./MapInfoWindow.vue";
-export { default as HomeListingCard } from "./HomeListingCard.vue";

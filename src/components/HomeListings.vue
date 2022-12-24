@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HomeListingCard from "./HomeListingCard.vue";
-import { useHomesStore } from "@/stores/HomesStore";
+import { HomeListingCard } from "./index";
+import { useHomesStore } from "@/stores";
 import { onMounted, computed } from "vue";
 
 const HomesStore = useHomesStore();

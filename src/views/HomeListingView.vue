@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import AgentCard from "@/components/AgentCard.vue";
-import { useHomesStore } from "@/stores/HomesStore";
-import { useRouter } from "vue-router";
-import { computed, onBeforeMount, ref } from "vue";
-import _ from "lodash";
+import { Header, Footer, AgentCard } from "@/components";
+import { useHomesStore } from "@/stores";
 
+import { computed, onBeforeMount, ref } from "vue";
 import VueEasyLightbox from "vue-easy-lightbox";
+import { useRouter } from "vue-router";
 import InlineSvg from "vue-inline-svg";
+import _ from "lodash";
 
 const router = useRouter();
 const HomesStore = useHomesStore();

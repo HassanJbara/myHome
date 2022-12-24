@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { Search, HomeListingCard, Header, Footer } from "../components/index";
-import HomesMap from "@/components/HomesMap.vue";
-import { useHomesStore } from "@/stores/HomesStore";
+import {
+  Search,
+  HomeListingCard,
+  Header,
+  Footer,
+  HomesMap,
+} from "@/components";
+import { useHomesStore } from "@/stores";
+import { useNavigation } from "@/composables";
 
 import { NSwitch, NSpace, useMessage } from "naive-ui";
 import { onMounted, computed, ref, onUnmounted } from "vue";
-import useNavigation from "@/composables/homes/useNavigation";
 
 const HomesStore = useHomesStore();
 const message = useMessage();

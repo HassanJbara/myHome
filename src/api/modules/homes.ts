@@ -1,6 +1,6 @@
 import type { AxiosPromise } from "axios";
 import { axiosAPI } from "@/api/axios";
-import type { Home, HomesNewProperty, HomesSearch } from "@/modules/homes";
+import type { Home, HomesNewProperty, HomesSearch } from "@/modules";
 import axios from "axios";
 
 const homes = {

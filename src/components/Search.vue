@@ -12,7 +12,7 @@ import {
   NCheckboxGroup,
   NSlider,
 } from "naive-ui";
-import { useHomesStore } from "@/stores/HomesStore";
+import { useHomesStore } from "@/stores";
 // import api from "@/api";
 // import type { Home } from "@/modules/homes";
 

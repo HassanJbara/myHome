@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AgentCardListing from "./AgentCardListing.vue";
+import { AgentCardListing } from "./index";
 import { computed, onMounted } from "vue";
-import { useAgentsStore } from "@/stores/AgentsStore";
+import { useAgentsStore } from "@/stores";
 
 const AgentsStore = useAgentsStore();
 

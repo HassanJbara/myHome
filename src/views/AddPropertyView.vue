@@ -1,17 +1,15 @@
 <script setup lang="ts">
 // Input fields should be made separate components
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import homes from "@/api/modules/homes";
-import { useAuthStore } from "@/stores/AuthStore";
-import { useMessage } from "naive-ui";
-import _ from "lodash";
-
-import InlineSvg from "vue-inline-svg";
+import type { HomesNewProperty } from "@/modules";
+import { home_types, property_types } from "@/modules";
+import { Header, Footer } from "@/components";
+import { useAuthStore } from "@/stores";
+import api from "@/api";
 
 import { computed, onMounted, ref } from "vue";
-import type { HomesNewProperty } from "@/modules/homes";
-import * as homesTypes from "@/modules/homes";
+import InlineSvg from "vue-inline-svg";
+import { useMessage } from "naive-ui";
+import _ from "lodash";
 
 const authStore = useAuthStore();
 const message = useMessage();
@@ -98,7 +96,7 @@ function onSubmit() {
       }
   }
   if (token.value) {
-    homes.addProperty(dataDict.value, token.value).then(
+    api.homes.addProperty(dataDict.value, token.value).then(
       () => {
         clearFields();
         message.success("Success. Property submitted for reviewing.");
@@ -111,7 +109,7 @@ function onSubmit() {
     console.error("Token is not set");
     fetchToken();
     if (token.value) {
-      homes.addProperty(dataDict.value, token.value).then(
+      api.homes.addProperty(dataDict.value, token.value).then(
         () => {
           clearFields();
           message.success("Success. Property submitted for reviewing.");
@@ -136,8 +134,8 @@ function clearFields() {
   dataDict.value = {
     info: {
       home_name: "",
-      home_type: homesTypes.home_types[0],
-      property_type: homesTypes.property_types[0],
+      home_type: home_types[0],
+      property_type: property_types[0],
       listing_text: "",
       rent: 0,
     },
@@ -197,7 +195,7 @@ onMounted(() => {
               <div class="select w-full">
                 <select class="w-full" v-model="dataDict.info.home_type">
                   <option
-                    v-for="(option, index) in homesTypes.home_types"
+                    v-for="(option, index) in home_types"
                     :key="index"
                     :value="option"
                   >
@@ -211,7 +209,7 @@ onMounted(() => {
               <div class="select">
                 <select class="w-full" v-model="dataDict.info.property_type">
                   <option
-                    v-for="(option, index) in homesTypes.property_types"
+                    v-for="(option, index) in property_types"
                     :key="index"
                     :value="option"
                   >

@@ -1,4 +1,4 @@
-import type { Home } from "@/modules/homes";
+import type { Home } from "@/modules";
 import { computed, ref, type Ref } from "vue";
 
 export default (

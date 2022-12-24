@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import HomeListings from "@/components/HomeListings.vue";
-import AgentListings from "@/components/AgentListings.vue";
+import { Header, Footer, HomeListings, AgentListings } from "@/components";
 import { computed } from "vue";
 
 const isMobile = computed(() => {

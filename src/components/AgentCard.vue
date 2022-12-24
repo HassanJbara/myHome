@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InlineSvg from "vue-inline-svg";
-import type { Agent } from "@/modules/agents";
+import type { Agent } from "@/modules";
 
 interface Props {
   agent: Agent | undefined;

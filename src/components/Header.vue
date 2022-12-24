@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Search from "./Search.vue";
-import MainMenu from "./MainMenu.vue";
+import { Search, MainMenu } from "./index";
 
 interface Props {
   withSearch: boolean;

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import api from "@/api";
-import type { Agent } from "@/modules/agents";
+import type { Agent } from "@/modules";
 
-export interface AgentsStoreState {
+interface AgentsStoreState {
   agents: Agent[];
 }
 
-export const defaultState = (): AgentsStoreState => {
+const defaultState = (): AgentsStoreState => {
   return {
     agents: [],
   };

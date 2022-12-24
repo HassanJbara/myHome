@@ -1,4 +1,4 @@
-import type { Agent } from "@/modules/agents";
+import type { Agent } from "@/modules";
 
 export const home_types = ["APPARTMENT", "DUPLEX", "HOUSE", "STUDIO"] as const;
 export const property_types = ["RENT", "SALE"] as const;

@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import api from "@/api";
-import type { Home, HomesSearch } from "@/modules/homes";
+import type { Home, HomesSearch } from "@/modules";
 
-export interface HomesStoreState {
+interface HomesStoreState {
   homes: Home[];
   searchedHomes: Home[];
 }
 
-export const defaultState = (): HomesStoreState => {
+const defaultState = (): HomesStoreState => {
   return {
     homes: [],
     searchedHomes: [],
