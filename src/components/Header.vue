@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
     >
     <Search
       v-if="props.withSearch"
-      class="overflow-x-auto"
+      class="overflow-x-auto rounded-md bg-white"
       :mobile="props.mobile"
     />
   </header>

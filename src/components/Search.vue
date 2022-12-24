@@ -125,7 +125,7 @@ function formatTooltip(value: number) {
 
 <template>
   <div
-    class="content-center flex max-w-[90%] rounded-md bg-white self-center"
+    class="content-center flex max-w-[90%] self-center"
     :class="
       props.type == 'vertical'
         ? 'flex-col w-full m-4'
@@ -165,7 +165,7 @@ function formatTooltip(value: number) {
         <n-collapse
           v-show="props.type == 'vertical'"
           arrow-placement="right"
-          class="mt-6"
+          class="mt-2"
         >
           <n-collapse-item title="Features" name="1">
             <n-checkbox-group v-model:value="homeFeatures">
