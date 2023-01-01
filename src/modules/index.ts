@@ -1,6 +1,7 @@
 export type {
   home_type,
   property_type,
+  HomePosition,
   HomeFeatures,
   HomeSpecifications,
   HomeAddress,

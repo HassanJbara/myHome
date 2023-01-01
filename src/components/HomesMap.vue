@@ -10,7 +10,7 @@
     <GMapMarker
       :key="index"
       v-for="(m, index) in markers"
-      :position="m.position"
+      :position="m.address.position"
       :clickable="true"
       :icon="{
         url: './icons/rectangle.svg',
@@ -21,16 +21,16 @@
         color: 'white',
         fontWeight: 'bold',
         fontSize: '10px',
-        text: m.price.toString() + ' $',
+        text: m.rent.toString() + ' $',
       }"
-      @click="clickMarker(m.id, m.position)"
+      @click="clickMarker(m.id, m.address.position)"
     >
       <GMapInfoWindow
         :closeclick="true"
         @closeclick="openMarker(null)"
         :opened="openedMarkerID === m.id"
       >
-        <MapInfoWindow :img="m.cover" />
+        <MapInfoWindow :home="m" />
       </GMapInfoWindow>
     </GMapMarker>
   </GMapMap>
@@ -40,17 +40,13 @@
 import { ref } from "vue";
 import type { PropType } from "vue";
 import { MapInfoWindow } from "./index";
+import type { Home, HomePosition } from "@/modules";
 
-interface Position {
-  lat: number;
-  lng: number;
-}
-export interface Marker {
-  id: number;
-  cover?: string;
-  position: Position;
-  price: number;
-}
+// export interface Marker {
+//   id: number;
+//   position: Position;
+//   home: Home;
+// }
 
 export default {
   name: "App",
@@ -65,7 +61,7 @@ export default {
   },
   props: {
     mapHeight: String,
-    homeMarkers: Object as PropType<Array<Marker>>,
+    homeMarkers: Object as PropType<Array<Home>>,
   },
   computed: {
     markers() {
@@ -73,7 +69,7 @@ export default {
     },
     markersCenter() {
       if (this.homeMarkers && this.homeMarkers.length > 0)
-        return this.homeMarkers[0].position;
+        return this.homeMarkers[0].address.position;
       else return this.center;
     },
     zoom() {
@@ -85,7 +81,7 @@ export default {
     openMarker(id: number | null) {
       this.openedMarkerID = id;
     },
-    clickMarker(id: number | null, position: Position) {
+    clickMarker(id: number | null, position: HomePosition) {
       this.center = position;
       this.openedMarkerID = id;
     },

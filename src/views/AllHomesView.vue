@@ -29,15 +29,10 @@ const { cP, pagesCount, entriesToDisplay, pagesToDisplay, setCurrentPage } =
 
 const mapMarkers = computed(() => {
   return homeListings.value
-    .filter((h) => h.address.latitude !== 0 || h.address.longitude !== 0)
-    .map((h) => {
-      return {
-        id: h.id,
-        cover: h.home_img_main,
-        position: { lat: h.address.latitude, lng: h.address.longitude },
-        price: h.rent,
-      };
-    });
+    .filter((h) => h.address.position)
+    .filter(
+      (h) => h.address.position.lat !== 0 || h.address.position.lng !== 0
+    );
 });
 
 const headerText = computed(() => {
@@ -144,7 +139,7 @@ onUnmounted(() => {
         />
       </div>
       <div v-if="showMap" class="column is-three-quarters h-1/2">
-        <HomesMap map-height="36rem" :home-markers="mapMarkers" />
+        <HomesMap map-height="46rem" :home-markers="mapMarkers" />
       </div>
       <div v-else class="column is-one-fifth" />
     </div>

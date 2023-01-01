@@ -6,6 +6,11 @@ export const property_types = ["RENT", "SALE"] as const;
 export type home_type = typeof home_types[number];
 export type property_type = typeof property_types[number];
 
+export interface HomePosition {
+  lat: number;
+  lng: number;
+}
+
 export interface HomeSpecifications {
   rooms: number;
   baths: number;
@@ -29,8 +34,7 @@ export interface HomeAddress {
   house_number: number;
   city: string;
   plz: string;
-  longitude: number;
-  latitude: number;
+  position: HomePosition;
 }
 
 export interface Home {
