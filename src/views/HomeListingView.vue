@@ -20,7 +20,6 @@ function features_halfs(half: "first" | "second") {
   if (this_home.value) {
     if (!this_home.value.features) return [];
     const features_keys = Object.keys(this_home.value.features);
-    console.log(features_keys);
     const half_length = Math.ceil(features_keys.length / 2);
     if (half == "first") {
       return features_keys.splice(0, half_length);

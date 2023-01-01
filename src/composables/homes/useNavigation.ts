@@ -11,7 +11,6 @@ export default (
 
   function setCurrentPage(newPageNumber: number) {
     cP.value = newPageNumber;
-    console.log(homeListings.value);
   }
 
   const pagesCount = computed(() => {
