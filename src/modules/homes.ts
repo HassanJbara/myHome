@@ -40,7 +40,6 @@ export interface HomeAddress {
 export interface Home {
   id: number;
   home_name: string;
-  home_img_main: string | undefined;
   home_type: home_type;
   listing_text: string;
   agent: Agent | undefined;

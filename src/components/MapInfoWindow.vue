@@ -29,7 +29,7 @@ defineProps<Props>();
         >
           {{ home.property_type }}
         </div>
-        <img :src="home.home_img_main" alt="House Image" />
+        <img :src="home.gallery_images[0]" alt="House Image" />
       </figure>
     </div>
 

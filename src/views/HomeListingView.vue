@@ -2,8 +2,8 @@
 import { Header, Footer, AgentCard } from "@/components";
 import { useHomesStore } from "@/stores";
 
-import { computed, onBeforeMount, ref } from "vue";
-import VueEasyLightbox from "vue-easy-lightbox";
+import { computed, onBeforeMount } from "vue";
+import { NCarousel } from "naive-ui";
 import { useRouter } from "vue-router";
 import InlineSvg from "vue-inline-svg";
 import _ from "lodash";
@@ -30,24 +30,6 @@ function features_halfs(half: "first" | "second") {
     return [];
   }
 }
-// Gallery Stuff
-const visibleRef = ref(false);
-const indexRef = ref(0);
-
-const gallery = computed(() => {
-  if (this_home.value && this_home.value?.gallery_images.length > 0) {
-    return this_home.value.gallery_images;
-  } else {
-    return [
-      "https://bulma.io/images/placeholders/256x256.png",
-      "https://bulma.io/images/placeholders/256x256.png",
-      "https://bulma.io/images/placeholders/256x256.png",
-      "https://bulma.io/images/placeholders/256x256.png",
-      "https://bulma.io/images/placeholders/256x256.png",
-      "https://bulma.io/images/placeholders/256x256.png",
-    ];
-  }
-});
 
 function checkFeature(feature: string) {
   if (
@@ -64,13 +46,6 @@ function checkFeature(feature: string) {
     return this_home.value?.features[feature];
 }
 
-const showImg = (index: number) => {
-  indexRef.value = index;
-  visibleRef.value = true;
-};
-
-const onHide = () => (visibleRef.value = false);
-
 onBeforeMount(() => {
   HomesStore.fill();
 });
@@ -79,11 +54,21 @@ onBeforeMount(() => {
 <template>
   <main>
     <Header :with-search="false" />
-    <section class="hero is-large">
-      <div
-        class="bg-cover bg-center w-full hero-body"
-        :style="{ backgroundImage: 'url(' + this_home?.home_img_main + ')' }"
-      ></div>
+    <section class="hero is-large h-[75vh]">
+      <n-carousel
+        :show-arrow="true"
+        dot-type="line"
+        :interval="3000"
+        autoplay
+        draggable
+      >
+        <img
+          v-for="(img, _) in this_home?.gallery_images"
+          :key="_"
+          class="w-full max-h-full"
+          :src="img"
+        />
+      </n-carousel>
     </section>
 
     <nav class="level mt-10">
@@ -108,7 +93,9 @@ onBeforeMount(() => {
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">Space</p>
-          <p class="title">{{ this_home?.specifications.space }} sq</p>
+          <p class="title">
+            {{ this_home?.specifications.space }} m<sup>2</sup>
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered m-4">
@@ -135,7 +122,7 @@ onBeforeMount(() => {
           </div>
           <div class="column is-one-thirds is-offset-1">
             <span
-              class="text-white font-semibold p-1 rounded-sm w-1/2 block"
+              class="text-white text-2xl font-semibold p-1 rounded-md w-1/2 block"
               :class="
                 this_home?.property_type == 'RENT'
                   ? 'has-background-primary'
@@ -261,43 +248,6 @@ onBeforeMount(() => {
               />
               {{ _.startCase(feature_text) }}
             </div>
-          </div>
-        </div>
-
-        <hr class="my-10" />
-
-        <div class="columns has-text-centered">
-          <div class="column flex flex-col mx-6">
-            <div class="flex flex-row gap-2 mb-2">
-              <div
-                v-for="index in Array(3).keys()"
-                :key="index"
-                class="pic"
-                @click="() => showImg(index)"
-              >
-                <img :src="gallery[index]" class="cursor-pointer rounded-md" />
-              </div>
-            </div>
-            <div class="flex flex-row gap-2 mt-1">
-              <div
-                v-for="index in Array(3).keys()"
-                :key="index"
-                class="pic"
-                @click="() => showImg(index + 3)"
-              >
-                <img
-                  :src="gallery[index + 3]"
-                  class="cursor-pointer rounded-md"
-                />
-              </div>
-            </div>
-            <vue-easy-lightbox
-              :visible="visibleRef"
-              :imgs="gallery"
-              :index="indexRef"
-              @hide="onHide"
-              :move-disabled="true"
-            />
           </div>
         </div>
 
