@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "serve dist",
     "serve": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-only": "vite build",
-    "preview": "vite preview --port 4173",
-    "type-check": "vue-tsc --noEmit",
-    "start": "node server.js"
+    "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.79",
@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "pinia": "^2.0.14",
     "requirejs": "^2.3.6",
+    "serve": "^14.1.2",
     "serve-static": "^1.15.0",
     "v2s": "^0.2.3",
     "vue": "^3.2.37",
