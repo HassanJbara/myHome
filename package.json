@@ -2,13 +2,13 @@
   "name": "myhome",
   "version": "0.0.0",
   "scripts": {
-    "build": "run-p type-check build-only",
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-only": "vite build",
-    "dev": "vite",
     "preview": "vite preview --port 4173",
     "type-check": "vue-tsc --noEmit",
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi ",
     "start": "node server.js"
   },
   "dependencies": {
