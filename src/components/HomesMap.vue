@@ -37,12 +37,12 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, defineComponent } from "vue";
 import type { PropType } from "vue";
 import { MapInfoWindow } from "@/components";
 import type { Home, HomePosition } from "@/modules";
 
-export default {
+export default defineComponent({
   name: "App",
   data() {
     return {
@@ -58,15 +58,15 @@ export default {
     homeMarkers: Object as PropType<Array<Home>>,
   },
   computed: {
-    markers() {
+    markers(): Home[] | undefined {
       return this.homeMarkers;
     },
-    markersCenter() {
+    markersCenter(): { lat: number; lng: number } {
       if (this.homeMarkers && this.homeMarkers.length > 0)
         return this.homeMarkers[0].address.position;
       else return this.center;
     },
-    zoom() {
+    zoom(): number {
       if (this.homeMarkers && this.homeMarkers.length > 0) return 12;
       else return 2;
     },
@@ -80,7 +80,7 @@ export default {
       this.openedMarkerID = id;
     },
   },
-};
+});
 </script>
 
 <style>
