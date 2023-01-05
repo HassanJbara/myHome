@@ -551,6 +551,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.visible {
+  visibility: visible;
+}
+
 .absolute {
   position: absolute;
 }
@@ -627,6 +631,11 @@ video {
   margin-bottom: 2.5rem;
 }
 
+.mx-6 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -665,6 +674,14 @@ video {
 
 .-mb-2 {
   margin-bottom: -0.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.ml-5 {
+  margin-left: 1.25rem;
 }
 
 .block {
@@ -785,6 +802,10 @@ video {
 
 .grow {
   flex-grow: 1;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flex-row {
@@ -910,6 +931,14 @@ video {
 .bg-\[\#00d1b2\] {
   --tw-bg-opacity: 1;
   background-color: rgb(0 209 178 / var(--tw-bg-opacity));
+}
+
+.bg-cover {
+  background-size: cover;
+}
+
+.bg-center {
+  background-position: center;
 }
 
 .p-2 {
