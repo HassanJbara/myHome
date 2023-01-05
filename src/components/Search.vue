@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import _ from "lodash";
 import {
   NSelect,
@@ -12,7 +12,7 @@ import {
   NCheckboxGroup,
   NSlider,
 } from "naive-ui";
-import { useHomesStore } from "@/stores/HomesStore";
+import { useHomesStore } from "@/stores";
 // import api from "@/api";
 // import type { Home } from "@/modules/homes";
 
@@ -25,6 +25,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const HomesStore = useHomesStore();
+
+const mobile = inject<boolean>("isMobile", false);
 
 // function getShow(input: string) {
 //   if (cityChoice.value) {
@@ -124,7 +126,7 @@ function formatTooltip(value: number) {
 
 <template>
   <div
-    class="content-center flex max-w-[90%] rounded-md bg-white self-center"
+    class="content-center flex max-w-[90%] self-center"
     :class="
       props.type == 'vertical'
         ? 'flex-col w-full m-4'
@@ -164,7 +166,7 @@ function formatTooltip(value: number) {
         <n-collapse
           v-show="props.type == 'vertical'"
           arrow-placement="right"
-          class="mt-6"
+          class="mt-2"
         >
           <n-collapse-item title="Features" name="1">
             <n-checkbox-group v-model:value="homeFeatures">
@@ -239,7 +241,7 @@ function formatTooltip(value: number) {
           size="medium"
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
-          <span class="font-semibold self-center">Bedrooms:</span>
+          <span class="font-semibold self-center">Beds:</span>
           <n-select
             v-model:value="bedroomChoice"
             :options="bedroomsOptions"
@@ -252,7 +254,7 @@ function formatTooltip(value: number) {
           size="medium"
           :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
         >
-          <span class="font-semibold self-center">Bathrooms:</span>
+          <span class="font-semibold self-center">Baths:</span>
           <n-select
             v-model:value="bathsChoice"
             :options="bathsOptions"

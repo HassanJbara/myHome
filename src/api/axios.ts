@@ -1,9 +1,19 @@
 import axios from "axios";
 
-const axiosAPI = axios.create({
+export const axiosAPI = axios.create({
   withCredentials: false,
   timeout: 28000,
-  baseURL: "https://aiham-backend.herokuapp.com/",
+  baseURL: "http://127.0.0.1:8000/",
 });
 
-export default axiosAPI;
+export const axiosWithAuth = axios.create({
+  withCredentials: false,
+  timeout: 28000,
+  baseURL: "http://127.0.0.1:8000/",
+});
+
+// export const axiosMAPS = axios.create({
+//   withCredentials: false,
+//   timeout: 28000,
+//   baseURL: "https://aiham-cors-proxy.herokuapp.com/",
+// });

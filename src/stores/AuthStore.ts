@@ -5,17 +5,17 @@ export interface User {
   name: string;
 }
 
-export interface AuthCredentials {
+interface AuthCredentials {
   username: string;
   password: string;
 }
 
-export interface AuthState {
+interface AuthState {
   user: User | undefined;
   token: string;
 }
 
-export const defaultState = (): AuthState => {
+const defaultState = (): AuthState => {
   return {
     user: undefined,
     token: "",

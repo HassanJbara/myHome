@@ -1,41 +1,52 @@
 <script setup lang="ts">
+import type { Home } from "@/modules";
+
 import InlineSvg from "vue-inline-svg";
-import type { Home } from "@/modules/homes";
+import { NCarousel } from "naive-ui";
+import { inject } from "vue";
 
 interface Props {
   home: Home;
   type?: "tall" | "wide";
+  showAgent?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   type: "tall",
+  showAgent: true,
 });
+
+const mobile = inject<boolean>("isMobile", false);
 </script>
 
 <template>
-  <div class="card" v-if="props.type == 'tall'">
-    <router-link
-      :to="{
-        name: 'home-detail',
-        params: { id: props.home.id },
-      }"
-    >
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <div
-            class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
-            :class="
-              props.home.property_type == 'RENT'
-                ? 'has-background-primary'
-                : 'has-background-danger'
-            "
-          >
-            {{ props.home.property_type }}
-          </div>
-          <img :src="props.home.home_img_main" alt="House Image" />
-        </figure>
+  <div class="card" v-if="type == 'tall'">
+    <div class="card-image">
+      <div
+        class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
+        :class="
+          home.property_type == 'RENT'
+            ? 'has-background-primary'
+            : 'has-background-danger'
+        "
+      >
+        {{ home.property_type }}
       </div>
-    </router-link>
+      <n-carousel
+        :show-arrow="home.gallery_images.length > 1"
+        :show-dots="home.gallery_images.length > 1"
+        dot-type="line"
+        :interval="4000"
+        draggable
+      >
+        <img
+          v-for="(img, _) in home.gallery_images"
+          :key="_"
+          class="w-full h-80"
+          :src="img"
+        />
+      </n-carousel>
+    </div>
 
     <div class="card-content">
       <div class="content">
@@ -45,39 +56,39 @@ const props = withDefaults(defineProps<Props>(), {
               class="font-bold"
               :to="{
                 name: 'home-detail',
-                params: { id: props.home.id },
+                params: { id: home.id },
               }"
             >
-              <h2>{{ props.home.address.city }}</h2>
+              <h2>{{ home.address.city }}</h2>
+              <h4>{{ home.address.street }}</h4>
             </router-link>
-            <h4>{{ props.home.address.street }}</h4>
           </div>
           <div class="column is-half">
             <div class="mb-4 text-center">
-              <span class="font-bold text-lg"
-                >{{ props.home.total_rent }}€</span
-              >
-              <span>
-                {{ props.home.property_type == "RENT" ? " / mo" : "" }}</span
-              >
+              <span class="font-bold text-lg">{{ home.rent }}€</span>
+              <span> {{ home.property_type == "RENT" ? " / mo" : "" }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="media">
+      <div
+        class="media"
+        :class="mobile ? 'flex flex-col' : ''"
+        v-show="showAgent"
+      >
         <div class="media-left">
           <figure class="image is-48x48">
             <img
-              :src="props.home.agent?.agent_img"
+              :src="home.agent?.agent_img"
               alt="Agent Image"
               class="rounded-lg"
             />
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{{ props.home.agent?.agent_name }}</p>
-          <p class="subtitle is-5">{{ props.home.agent?.agent_twitter }}</p>
+          <p class="title is-4">{{ home.agent?.agent_name }}</p>
+          <p class="subtitle is-5">{{ home.agent?.agent_twitter }}</p>
         </div>
       </div>
     </div>
@@ -91,7 +102,7 @@ const props = withDefaults(defineProps<Props>(), {
           class="mr-2"
         />
         <span class="whitespace-nowrap overflow-hidden">
-          {{ props.home.specifications.rooms }} Rooms
+          {{ home.specifications.rooms }}
         </span>
       </span>
       <span class="card-footer-item">
@@ -102,7 +113,7 @@ const props = withDefaults(defineProps<Props>(), {
           class="mr-2"
         />
         <span class="whitespace-nowrap overflow-hidden">
-          {{ props.home.specifications.baths }} Baths
+          {{ home.specifications.baths }}
         </span>
       </span>
       <span class="card-footer-item">
@@ -113,23 +124,23 @@ const props = withDefaults(defineProps<Props>(), {
           class="mr-2"
         />
         <span class="whitespace-nowrap overflow-hidden">
-          {{ props.home.specifications.space }} m<sup>2</sup>
+          {{ home.specifications.space }} m<sup>2</sup>
         </span>
       </span>
     </footer>
   </div>
 
   <div class="card flex flex-row h-[20%]" v-else>
-    <img :src="props.home.home_img_main" alt="" class="is-4by3 max-w-[35%]" />
+    <img :src="home.gallery_images[0]" alt="" class="is-4by3 max-w-[35%]" />
     <div
-      class="z-50 text-white font-semibold absolute left-0 top-0 p-1 m-4"
+      class="z-50 text-white rounded-sm font-semibold absolute left-0 top-0 p-1 m-4"
       :class="
-        props.home.property_type == 'RENT'
+        home.property_type == 'RENT'
           ? 'has-background-primary'
           : 'has-background-danger'
       "
     >
-      {{ props.home.property_type }}
+      {{ home.property_type }}
     </div>
 
     <div class="w-full">
@@ -137,55 +148,66 @@ const props = withDefaults(defineProps<Props>(), {
         class="has-text-black text-center"
         :to="{
           name: 'home-detail',
-          params: { id: props.home.id },
+          params: { id: home.id },
         }"
       >
         <h2 class="mx-2 mt-2 font-bold text-lg">
-          {{ props.home.address.city }}
+          {{ home.address.city }}
         </h2>
 
         <h3 class="mx-2 font-semibold">
-          {{ props.home.address.street }}
+          {{ home.address.street }} {{ home.address.house_number }}
         </h3>
+        <h3 class="mx-2 font-semibold">
+          {{ home.address.plz }}
+        </h3>
+
+        <div class="card-content h-40 overflow-clip">
+          {{ home.listing_text }}
+        </div>
+
+        <div
+          class="mb-4 w-full text-center flex flex-row items-center justify-between px-20"
+        >
+          <div>
+            <span class="font-bold text-lg">{{ home.home_type }}</span>
+          </div>
+          <div>
+            <span class="font-bold text-lg">{{ home.rent }}€</span>
+            <span>{{ home.property_type == "RENT" ? " / mo" : "" }}</span>
+          </div>
+        </div>
+
+        <footer class="card-footer">
+          <span class="card-footer-item">
+            <inline-svg
+              src="./icons/bedroom-icon.svg"
+              width="20"
+              height="20"
+              class="mr-2"
+            />
+            {{ home.specifications.rooms }}
+          </span>
+          <span class="card-footer-item">
+            <inline-svg
+              src="./icons/bathroom-icon.svg"
+              width="20"
+              height="20"
+              class="mr-2"
+            />
+            {{ home.specifications.baths }}
+          </span>
+          <span class="card-footer-item">
+            <inline-svg
+              src="./icons/space-icon.svg"
+              width="20"
+              height="20"
+              class="mr-2"
+            />
+            {{ home.specifications.space }} m<sup>2</sup>
+          </span>
+        </footer>
       </router-link>
-      <div class="card-content h-40 overflow-clip">
-        {{ props.home.listing_text }}
-      </div>
-
-      <div class="mb-4 w-full text-center">
-        <span class="font-bold text-lg">{{ props.home.total_rent }}€</span>
-        <span>{{ props.home.property_type == "RENT" ? " / mo" : "" }}</span>
-      </div>
-
-      <footer class="card-footer">
-        <span class="card-footer-item">
-          <inline-svg
-            src="./icons/bedroom-icon.svg"
-            width="20"
-            height="20"
-            class="mr-2"
-          />
-          {{ props.home.specifications.rooms }} Rooms
-        </span>
-        <span class="card-footer-item">
-          <inline-svg
-            src="./icons/bathroom-icon.svg"
-            width="20"
-            height="20"
-            class="mr-2"
-          />
-          {{ props.home.specifications.baths }} Baths
-        </span>
-        <span class="card-footer-item">
-          <inline-svg
-            src="./icons/space-icon.svg"
-            width="20"
-            height="20"
-            class="mr-2"
-          />
-          {{ props.home.specifications.space }} m<sup>2</sup>
-        </span>
-      </footer>
     </div>
   </div>
 </template>

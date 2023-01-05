@@ -1,10 +1,15 @@
-import type { Agent } from "@/modules/agents";
+import type { Agent } from "@/modules";
 
 export const home_types = ["APPARTMENT", "DUPLEX", "HOUSE", "STUDIO"] as const;
 export const property_types = ["RENT", "SALE"] as const;
 
 export type home_type = typeof home_types[number];
 export type property_type = typeof property_types[number];
+
+export interface HomePosition {
+  lat: number;
+  lng: number;
+}
 
 export interface HomeSpecifications {
   rooms: number;
@@ -29,20 +34,16 @@ export interface HomeAddress {
   house_number: number;
   city: string;
   plz: string;
-  longitude: number;
-  latitude: number;
+  position: HomePosition;
 }
 
 export interface Home {
   id: number;
   home_name: string;
-  home_img_main: string | undefined;
   home_type: home_type;
   listing_text: string;
   agent: Agent | undefined;
-  total_rent: number;
-  cold_rent: number;
-  warm_rent: number;
+  rent: number;
   specifications: HomeSpecifications;
   features: HomeFeatures;
   address: HomeAddress;
@@ -56,8 +57,7 @@ export interface HomesNewProperty {
     home_type: string;
     property_type: string;
     listing_text: string;
-    cold_rent: number;
-    warm_rent: number;
+    rent: number;
   };
   address: { city: string; street: string; house_number: number; plz: string };
   features: {

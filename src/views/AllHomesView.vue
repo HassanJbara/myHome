@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import HomeListingCard from "@/components/HomeListingCard.vue";
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import Search from "@/components/Search.vue";
-import { useHomesStore } from "@/stores/HomesStore";
+import {
+  Search,
+  HomeListingCard,
+  Header,
+  Footer,
+  HomesMap,
+} from "@/components";
+import { useHomesStore } from "@/stores";
+import { useNavigation } from "@/composables";
 
+import { NSwitch, NSpace, useMessage } from "naive-ui";
 import { onMounted, computed, ref, onUnmounted } from "vue";
 
 const HomesStore = useHomesStore();
+const message = useMessage();
+
+const afterSearch = ref(false);
+const showMap = ref(true);
 
 const homeListings = computed(() => {
+  if (HomesStore.getSearchedHomes.length === 0 && afterSearch.value)
+    message.error("No Properties Found");
   return HomesStore.getSearchedHomes;
+});
+
+const { cP, pagesCount, entriesToDisplay, pagesToDisplay, setCurrentPage } =
+  useNavigation(homeListings, 4, 1);
+
+const mapMarkers = computed(() => {
+  return homeListings.value
+    .filter((h) => h.address.position)
+    .filter(
+      (h) => h.address.position.lat !== 0 || h.address.position.lng !== 0
+    );
 });
 
 const headerText = computed(() => {
@@ -21,89 +43,48 @@ const headerText = computed(() => {
   }
 });
 
-// Pagenation
-const numberOfEntriesInPage = ref(3);
-const currentPage = ref(1);
-
-// Determine how many pages needed in total, from 1 to n. n = ceil(number of homes / number of homes in each page)
-const pagesCount = computed(() => {
-  if (!homeListings.value) {
-    return [];
-  } else {
-    return Array.from(
-      {
-        length: Math.ceil(
-          homeListings.value.length / numberOfEntriesInPage.value
-        ),
-      },
-      (_, i) => i + 1
-    );
-  }
-});
-
-// Which pages should actually be displayed? Is determined by displayPageNumber method. Also add ellipsis in place of truncated pages.
-const pagesToDisplay = computed(() => {
-  const arr = pagesCount.value.filter((i) => displayPageNumber(i));
-  for (let i = 0; i < arr.length; i++) {
-    if (i == 0) {
-      continue;
-    }
-    // -1 is truncation mark for ellipsis
-    if (arr[i] > arr[i - 1] + 1) {
-      arr.splice(i, 0, -1);
-      i++;
-    }
-  }
-  return arr;
-});
-
-// Which entries show in which page? Thoe are the entries that will be displayed, i.e. the end result of the pagenation.
-const entriesToDisplay = computed(() => {
-  if (homeListings.value === undefined) {
-    return [];
-  } else {
-    const arr = Array.from(
-      { length: numberOfEntriesInPage.value },
-      (_, i) => i + (currentPage.value - 1) * numberOfEntriesInPage.value
-    );
-    return arr.filter((i) => i < homeListings.value.length);
-  }
-});
-
-// Should pageNumber n be displayed or omitted?
-function displayPageNumber(pageNumber: number) {
-  if (pageNumber == pagesCount.value.length || pageNumber == 1) {
-    return true;
-  } else if (pageNumber > currentPage.value + 1) {
-    return false;
-  } else if (pageNumber < currentPage.value - 1) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 function onSearch() {
   // headerText.value = "Showing Search Results";
-  currentPage.value = 1;
+  setCurrentPage(1);
+  afterSearch.value = true;
 }
 
 // Nav buttons.
 function navPage(pageNumber: number) {
-  currentPage.value = pageNumber;
+  setCurrentPage(pageNumber);
 }
 
 function prevPage() {
-  if (!(currentPage.value == 1)) {
-    currentPage.value = currentPage.value - 1;
+  if (!(cP.value == 1)) {
+    setCurrentPage(cP.value - 1);
   }
 }
 
 function nextPage() {
-  if (!(currentPage.value == pagesCount.value.length)) {
-    currentPage.value = currentPage.value + 1;
+  if (!(cP.value == pagesCount.value.length)) {
+    setCurrentPage(cP.value + 1);
   }
 }
+
+const isMobile = computed(() => {
+  if ("maxTouchPoints" in navigator) {
+    return navigator.maxTouchPoints > 0;
+  } else {
+    const mQ = matchMedia?.("(pointer:coarse)");
+    if (mQ?.media === "(pointer:coarse)") {
+      return !!mQ.matches;
+    } else if ("orientation" in window) {
+      return true; // deprecated, but good fallback
+    } else {
+      // Only as a last resort, fall back to user agent sniffing
+      const UA = navigator.userAgent;
+      return (
+        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+      );
+    }
+  }
+});
 
 onMounted(() => {
   const searchedHomes = HomesStore.getSearchedHomes;
@@ -121,18 +102,31 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <Header :with-search="false" />
-    <div class="columns mt-4">
-      <div class="column is-one-quarter is-offset-1">
-        <div class="box m-4">
+    <Header :with-search="false" :mobile="isMobile" />
+    <div class="columns">
+      <div class="column is-one-quarter">
+        <div
+          class="box flex-col items-center justify-center sticky top-0"
+          style="border-radius: 0px 0px 12px 0px"
+        >
+          <n-space justify="center">
+            List
+            <n-switch
+              v-model:value="showMap"
+              :round="false"
+              :theme-overrides="{ railColorActive: '#3e8ed0' }"
+            />
+            Map
+          </n-space>
           <Search
-            class="overflow-x-auto w-full"
+            class="overflow-x-auto w-full rounded-md bg-white"
             type="vertical"
             @searched="onSearch"
+            :mobile="isMobile"
           />
         </div>
       </div>
-      <div class="column is-half m-4 h-full overflow-y-auto">
+      <div class="column h-full overflow-y-auto is-half m-4" v-show="!showMap">
         <h2 class="text-2xl font-semibold">{{ headerText }}</h2>
         <HomeListingCard
           v-for="index in entriesToDisplay"
@@ -140,11 +134,16 @@ onUnmounted(() => {
           :home="homeListings[index]"
           type="wide"
           class="my-4"
+          :mobile="isMobile"
+          :show-agent="false"
         />
       </div>
-      <div class="column is-one-fifth"></div>
+      <div v-if="showMap" class="column is-three-quarters h-1/2">
+        <HomesMap map-height="46rem" :home-markers="mapMarkers" />
+      </div>
+      <div v-else class="column is-one-fifth" />
     </div>
-    <div class="flex flex-row justify-center">
+    <div class="flex flex-row justify-center" v-show="!showMap">
       <nav
         class="pagination is-centered w-[80%]"
         role="navigation"
@@ -152,7 +151,7 @@ onUnmounted(() => {
       >
         <a
           class="pagination-previous"
-          :class="{ 'is-disabled': currentPage == 1 }"
+          :class="{ 'is-disabled': cP == 1 }"
           @click="prevPage"
         >
           Previous
@@ -160,7 +159,9 @@ onUnmounted(() => {
         <a
           class="pagination-next"
           @click="nextPage"
-          :class="{ 'is-disabled': currentPage == pagesCount.length }"
+          :class="{
+            'is-disabled': cP == pagesCount.length,
+          }"
         >
           Next page
         </a>
@@ -169,7 +170,7 @@ onUnmounted(() => {
             <a
               v-if="!(pageNumber < 0)"
               class="pagination-link"
-              :class="{ 'is-current': currentPage == pageNumber }"
+              :class="{ 'is-current': cP == pageNumber }"
               @click="navPage(pageNumber)"
             >
               {{ pageNumber }}
@@ -182,5 +183,3 @@ onUnmounted(() => {
     <Footer />
   </main>
 </template>
-
-<style></style>
