@@ -39,14 +39,8 @@
 <script lang="ts">
 import { ref } from "vue";
 import type { PropType } from "vue";
-import { MapInfoWindow } from "./index";
+import { MapInfoWindow } from "@/components";
 import type { Home, HomePosition } from "@/modules";
-
-// export interface Marker {
-//   id: number;
-//   position: Position;
-//   home: Home;
-// }
 
 export default {
   name: "App",

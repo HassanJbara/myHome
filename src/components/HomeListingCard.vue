@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import InlineSvg from "vue-inline-svg";
 import type { Home } from "@/modules";
+
+import InlineSvg from "vue-inline-svg";
+import { NCarousel } from "naive-ui";
+import { inject } from "vue";
 
 interface Props {
   home: Home;
   type?: "tall" | "wide";
-  mobile: boolean;
   showAgent?: boolean;
 }
 
@@ -13,32 +15,38 @@ withDefaults(defineProps<Props>(), {
   type: "tall",
   showAgent: true,
 });
+
+const mobile = inject<boolean>("isMobile", false);
 </script>
 
 <template>
   <div class="card" v-if="type == 'tall'">
-    <router-link
-      :to="{
-        name: 'home-detail',
-        params: { id: home.id },
-      }"
-    >
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <div
-            class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
-            :class="
-              home.property_type == 'RENT'
-                ? 'has-background-primary'
-                : 'has-background-danger'
-            "
-          >
-            {{ home.property_type }}
-          </div>
-          <img :src="home.gallery_images[0]" alt="House Image" />
-        </figure>
+    <div class="card-image">
+      <div
+        class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
+        :class="
+          home.property_type == 'RENT'
+            ? 'has-background-primary'
+            : 'has-background-danger'
+        "
+      >
+        {{ home.property_type }}
       </div>
-    </router-link>
+      <n-carousel
+        :show-arrow="home.gallery_images.length > 1"
+        :show-dots="home.gallery_images.length > 1"
+        dot-type="line"
+        :interval="4000"
+        draggable
+      >
+        <img
+          v-for="(img, _) in home.gallery_images"
+          :key="_"
+          class="w-full h-80"
+          :src="img"
+        />
+      </n-carousel>
+    </div>
 
     <div class="card-content">
       <div class="content">

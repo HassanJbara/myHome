@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import { AgentCardListing } from "./index";
-import { computed, onMounted } from "vue";
+import { AgentCardListing } from "@/components";
 import { useAgentsStore } from "@/stores";
 
+import { computed, onMounted, inject } from "vue";
+
 const AgentsStore = useAgentsStore();
-
-interface Props {
-  mobile: boolean;
-}
-
-const props = defineProps<Props>();
 
 const agents = computed(() => {
   return AgentsStore.getAgents;
 });
+
+const mobile = inject<boolean>("isMobile", false);
 
 onMounted(() => {
   AgentsStore.fill();
@@ -26,14 +23,14 @@ onMounted(() => {
 
     <div
       class="flex flex-row m-4 p-2 max-w-7xl w-full overflow-x-auto"
-      :class="props.mobile ? 'gap-4' : 'gap-12'"
+      :class="mobile ? 'gap-4' : 'gap-12'"
     >
       <!-- THESE SHOULD FLEX COL ON MOBILE! !-->
       <AgentCardListing
         v-for="(agent, index) in agents"
         :key="index"
         :agent="agent"
-        :class="props.mobile ? '' : 'w-[20%]'"
+        :class="mobile ? '' : 'w-[20%]'"
       />
     </div>
   </div>

@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { HomeListingCard } from "./index";
+import { HomeListingCard } from "@/components";
 import { useHomesStore } from "@/stores";
+
 import { onMounted, computed } from "vue";
 
 const HomesStore = useHomesStore();
-
-interface Props {
-  mobile: boolean;
-}
-
-const props = defineProps<Props>();
 
 const homeListings = computed(() => {
   const number_of_homes = HomesStore.getHomes.length;
@@ -58,7 +53,6 @@ onMounted(() => {
           v-for="(listing, index) in homes_halfs('first')"
           :key="index"
           :home="listing"
-          :mobile="props.mobile"
           class="m-2 w-4/12"
         />
       </div>
@@ -70,7 +64,6 @@ onMounted(() => {
           v-for="(listing, index) in homes_halfs('second')"
           :key="index"
           :home="listing"
-          :mobile="props.mobile"
           class="m-2 w-4/12"
         />
       </div>

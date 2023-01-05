@@ -551,10 +551,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .absolute {
   position: absolute;
 }
@@ -631,11 +627,6 @@ video {
   margin-bottom: 2.5rem;
 }
 
-.mx-6 {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-}
-
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -676,10 +667,6 @@ video {
   margin-bottom: -0.5rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
 .block {
   display: block;
 }
@@ -696,6 +683,10 @@ video {
   height: 30%;
 }
 
+.h-80 {
+  height: 20rem;
+}
+
 .h-\[20\%\] {
   height: 20%;
 }
@@ -708,36 +699,32 @@ video {
   height: 50%;
 }
 
-.h-32 {
-  height: 8rem;
-}
-
-.h-3\/4 {
-  height: 75%;
-}
-
-.h-1\/4 {
-  height: 25%;
-}
-
 .h-\[75vh\] {
   height: 75vh;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
+.h-60 {
+  height: 15rem;
 }
 
 .max-h-\[100\%\] {
   max-height: 100%;
 }
 
-.max-h-\[25\%\] {
-  max-height: 25%;
-}
-
 .max-h-full {
   max-height: 100%;
 }
 
-.max-h-40 {
-  max-height: 10rem;
+.max-h-\[25\%\] {
+  max-height: 25%;
 }
 
 .w-full {
@@ -788,6 +775,14 @@ video {
   width: 50%;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
+.w-80 {
+  width: 20rem;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -802,10 +797,6 @@ video {
 
 .grow {
   flex-grow: 1;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .flex-row {
@@ -941,19 +932,14 @@ video {
   padding: 0.25rem;
 }
 
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .px-20 {
   padding-left: 5rem;
   padding-right: 5rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .text-left {

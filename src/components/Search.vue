@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import _ from "lodash";
 import {
   NSelect,
@@ -18,7 +18,6 @@ import { useHomesStore } from "@/stores";
 
 interface Props {
   type?: "vertical" | "horizontal";
-  mobile: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +25,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const HomesStore = useHomesStore();
+
+const mobile = inject<boolean>("isMobile", false);
 
 // function getShow(input: string) {
 //   if (cityChoice.value) {

@@ -56,7 +56,12 @@ onBeforeMount(() => {
     <Header :with-search="false" />
     <section class="hero is-large h-[75vh]">
       <n-carousel
-        :show-arrow="true"
+        :show-arrow="
+          this_home?.gallery_images && this_home.gallery_images.length > 1
+        "
+        :show-dots="
+          this_home?.gallery_images && this_home.gallery_images.length > 1
+        "
         dot-type="line"
         :interval="3000"
         autoplay
