@@ -13,7 +13,7 @@
       :position="m.address.position"
       :clickable="true"
       :icon="{
-        url: './icons/rectangle.svg',
+        url: '/icons/rectangle.svg',
         scaledSize: { width: 60, height: 42 },
         fillColor: '#fff',
       }"

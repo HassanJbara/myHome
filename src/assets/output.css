@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.1.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -30,6 +30,7 @@
 2. Prevent adjustments of font size after orientation changes in iOS.
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
 */
 
 html {
@@ -44,6 +45,8 @@ html {
   /* 3 */
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
+  font-feature-settings: normal;
+  /* 5 */
 }
 
 /*
@@ -410,54 +413,13 @@ video {
   height: auto;
 }
 
-*, ::before, ::after {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+/* Make elements with the HTML hidden attribute stay hidden by default */
+
+[hidden] {
+  display: none;
 }
 
-::-webkit-backdrop {
+*, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -551,10 +513,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .absolute {
   position: absolute;
 }
@@ -564,7 +522,6 @@ video {
 }
 
 .sticky {
-  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -631,17 +588,8 @@ video {
   margin-bottom: 2.5rem;
 }
 
-.mx-6 {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-}
-
 .mt-10 {
   margin-top: 2.5rem;
-}
-
-.mt-12 {
-  margin-top: 3rem;
 }
 
 .mb-4 {
@@ -656,12 +604,16 @@ video {
   margin-top: 0.5rem;
 }
 
-.mt-6 {
-  margin-top: 1.5rem;
+.mt-12 {
+  margin-top: 3rem;
 }
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
 }
 
 .mt-8 {
@@ -676,14 +628,6 @@ video {
   margin-bottom: -0.5rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.ml-5 {
-  margin-left: 1.25rem;
-}
-
 .block {
   display: block;
 }
@@ -694,10 +638,6 @@ video {
 
 .h-full {
   height: 100%;
-}
-
-.h-\[30\%\] {
-  height: 30%;
 }
 
 .h-80 {
@@ -716,12 +656,48 @@ video {
   height: 15rem;
 }
 
+.h-\[30\%\] {
+  height: 30%;
+}
+
 .h-1\/2 {
   height: 50%;
 }
 
 .h-\[75vh\] {
   height: 75vh;
+}
+
+.h-\[100vw\] {
+  height: 100vw;
+}
+
+.h-\[90vw\] {
+  height: 90vw;
+}
+
+.h-\[80vw\] {
+  height: 80vw;
+}
+
+.h-\[80vh\] {
+  height: 80vh;
+}
+
+.h-\[70vh\] {
+  height: 70vh;
+}
+
+.h-\[68vh\] {
+  height: 68vh;
+}
+
+.h-\[69vh\] {
+  height: 69vh;
+}
+
+.h-\[6vh\] {
+  height: 6vh;
 }
 
 .max-h-\[100\%\] {
@@ -802,10 +778,6 @@ video {
 
 .grow {
   flex-grow: 1;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .flex-row {
@@ -933,20 +905,16 @@ video {
   background-color: rgb(0 209 178 / var(--tw-bg-opacity));
 }
 
-.bg-cover {
-  background-size: cover;
-}
-
-.bg-center {
-  background-position: center;
-}
-
 .p-2 {
   padding: 0.5rem;
 }
 
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
 }
 
 .px-20 {
@@ -977,11 +945,6 @@ video {
   line-height: 2rem;
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -992,12 +955,21 @@ video {
   line-height: 1.5rem;
 }
 
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
 .font-semibold {
   font-weight: 600;
 }
 
 .font-bold {
   font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .capitalize {
@@ -1018,10 +990,16 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-colors {
-  transition-property: color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

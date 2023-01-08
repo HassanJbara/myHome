@@ -2,7 +2,7 @@
 // Input fields should be made separate components
 import type { HomesNewProperty } from "@/modules";
 import { home_types, property_types } from "@/modules";
-import { Header, Footer } from "@/components";
+import { SiteHeader, SiteFooter } from "@/components";
 import { useAuthStore } from "@/stores";
 import api from "@/api";
 
@@ -167,7 +167,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <Header :with-search="false" :mobile="false" />
+    <SiteHeader :with-search="false" />
     <h1 class="mt-4 font-bold text-3xl w-full text-center">Add New Property</h1>
 
     <div class="flex flex-row justify-center">
@@ -236,7 +236,7 @@ onMounted(() => {
                 />
                 <span class="icon is-small is-right">
                   <inline-svg
-                    src="./icons/euro.svg"
+                    src="/icons/euro.svg"
                     fill="#B3E0FF"
                     width="50%"
                     height="50%"
@@ -362,6 +362,6 @@ onMounted(() => {
       </form>
     </div>
 
-    <Footer />
+    <SiteFooter />
   </main>
 </template>

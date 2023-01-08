@@ -96,7 +96,7 @@ const mobile = inject<boolean>("isMobile", false);
     <footer class="card-footer">
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/bedroom-icon.svg"
+          src="/icons/bedroom-icon.svg"
           width="25"
           height="25"
           class="mr-2"
@@ -107,7 +107,7 @@ const mobile = inject<boolean>("isMobile", false);
       </span>
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/bathroom-icon.svg"
+          src="/icons/bathroom-icon.svg"
           width="25"
           height="25"
           class="mr-2"
@@ -118,7 +118,7 @@ const mobile = inject<boolean>("isMobile", false);
       </span>
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/space-icon.svg"
+          src="/icons/space-icon.svg"
           width="25"
           height="25"
           class="mr-2"
@@ -181,7 +181,7 @@ const mobile = inject<boolean>("isMobile", false);
         <footer class="card-footer">
           <span class="card-footer-item">
             <inline-svg
-              src="./icons/bedroom-icon.svg"
+              src="/icons/bedroom-icon.svg"
               width="20"
               height="20"
               class="mr-2"
@@ -190,7 +190,7 @@ const mobile = inject<boolean>("isMobile", false);
           </span>
           <span class="card-footer-item">
             <inline-svg
-              src="./icons/bathroom-icon.svg"
+              src="/icons/bathroom-icon.svg"
               width="20"
               height="20"
               class="mr-2"
@@ -199,7 +199,7 @@ const mobile = inject<boolean>("isMobile", false);
           </span>
           <span class="card-footer-item">
             <inline-svg
-              src="./icons/space-icon.svg"
+              src="/icons/space-icon.svg"
               width="20"
               height="20"
               class="mr-2"
