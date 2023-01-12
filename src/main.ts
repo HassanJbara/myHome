@@ -18,12 +18,7 @@ const isMobile = computed(() => {
     } else if ("orientation" in window) {
       return true; // deprecated, but good fallback
     } else {
-      // Only as a last resort, fall back to user agent sniffing
-      const UA = navigator.userAgent;
-      return (
-        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
-      );
+      return false;
     }
   }
 });
