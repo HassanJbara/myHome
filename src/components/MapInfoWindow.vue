@@ -67,7 +67,7 @@ defineProps<Props>();
     <footer class="card-footer">
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/bedroom-icon.svg"
+          src="/icons/bedroom-icon.svg"
           width="22"
           height="22"
           class="mr-2"
@@ -78,7 +78,7 @@ defineProps<Props>();
       </span>
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/bathroom-icon.svg"
+          src="/icons/bathroom-icon.svg"
           width="22"
           height="22"
           class="mr-2"
@@ -89,7 +89,7 @@ defineProps<Props>();
       </span>
       <span class="card-footer-item">
         <inline-svg
-          src="./icons/space-icon.svg"
+          src="/icons/space-icon.svg"
           width="22"
           height="22"
           class="mr-2"

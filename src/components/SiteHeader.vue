@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { Search, MainMenu } from "@/components";
+import { SiteSearch, MainMenu } from "@/components";
 
-interface Props {
-  withSearch: boolean;
-}
-
-withDefaults(defineProps<Props>(), {
-  withSearch: true,
+defineProps({
+  withSearch: { type: Boolean, required: false, default: true },
 });
 </script>
 
@@ -18,6 +14,6 @@ withDefaults(defineProps<Props>(), {
       class="text-white text-center text-3xl mx-4 mt-12 font-bold"
       >Find the Best Property for Rent or Sale</span
     >
-    <Search v-if="withSearch" class="overflow-x-auto rounded-md bg-white" />
+    <SiteSearch v-if="withSearch" class="overflow-x-auto rounded-md bg-white" />
   </header>
 </template>

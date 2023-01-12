@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Header, Footer, AgentCard } from "@/components";
+import { SiteHeader, SiteFooter, AgentCard } from "@/components";
 import { useHomesStore } from "@/stores";
 
-import { computed, onBeforeMount } from "vue";
+import { computed, onBeforeMount, inject } from "vue";
 import { NCarousel } from "naive-ui";
 import { useRouter } from "vue-router";
 import InlineSvg from "vue-inline-svg";
@@ -11,7 +11,7 @@ import _ from "lodash";
 const router = useRouter();
 const HomesStore = useHomesStore();
 
-const key = "AIzaSyCN6tP3i10XQ2uBISjbG8kqSI-H-w54TVo";
+const key = inject("mapsKey", "");
 
 const param_id = String(router.currentRoute.value.params.id);
 const this_home = computed(() => HomesStore.getHomeByID(parseInt(param_id)));
@@ -53,7 +53,7 @@ onBeforeMount(() => {
 
 <template>
   <main>
-    <Header :with-search="false" />
+    <SiteHeader :with-search="false" />
     <section class="hero is-large h-[75vh]">
       <n-carousel
         :show-arrow="
@@ -223,8 +223,8 @@ onBeforeMount(() => {
               <inline-svg
                 :src="
                   checkFeature(feature_text)
-                    ? './icons/checked-tick.svg'
-                    : './icons/checked-cross.svg'
+                    ? '/icons/checked-tick.svg'
+                    : '/icons/checked-cross.svg'
                 "
                 width="20px"
                 height="20px"
@@ -243,8 +243,8 @@ onBeforeMount(() => {
               <inline-svg
                 :src="
                   checkFeature(feature_text)
-                    ? './icons/checked-tick.svg'
-                    : './icons/checked-cross.svg'
+                    ? '/icons/checked-tick.svg'
+                    : '/icons/checked-cross.svg'
                 "
                 width="20px"
                 height="20px"
@@ -293,6 +293,6 @@ onBeforeMount(() => {
       </div>
     </div>
 
-    <Footer />
+    <SiteFooter />
   </main>
 </template>

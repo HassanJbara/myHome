@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import {
-  Search,
+  SiteSearch,
   HomeListingCard,
-  Header,
-  Footer,
+  SiteHeader,
+  SiteFooter,
   HomesMap,
 } from "@/components";
 import { useHomesStore } from "@/stores";
 import { useNavigation } from "@/composables";
 
 import { NSwitch, NSpace, useMessage } from "naive-ui";
+import type { MessageReactive } from "naive-ui";
 import { onMounted, computed, ref, onUnmounted } from "vue";
 
 const HomesStore = useHomesStore();
@@ -17,12 +18,20 @@ const message = useMessage();
 
 const afterSearch = ref(false);
 const showMap = ref(true);
+const msgReactive = ref<MessageReactive | null>(null);
 
 const homeListings = computed(() => {
-  if (HomesStore.getSearchedHomes.length === 0 && afterSearch.value)
-    message.error("No Properties Found");
+  handleMessage();
   return HomesStore.getSearchedHomes;
 });
+
+function handleMessage() {
+  if (HomesStore.getSearchedHomes.length === 0 && afterSearch.value)
+    if (msgReactive.value) {
+      msgReactive.value.type = "error";
+      msgReactive.value.content = "Search done, no results found!";
+    }
+}
 
 const { cP, pagesCount, entriesToDisplay, pagesToDisplay, setCurrentPage } =
   useNavigation(homeListings, 4, 1);
@@ -46,6 +55,7 @@ const headerText = computed(() => {
 function onSearch() {
   // headerText.value = "Showing Search Results";
   setCurrentPage(1);
+  msgReactive.value = message.create("Search done", { type: "info" });
   afterSearch.value = true;
 }
 
@@ -66,26 +76,6 @@ function nextPage() {
   }
 }
 
-const isMobile = computed(() => {
-  if ("maxTouchPoints" in navigator) {
-    return navigator.maxTouchPoints > 0;
-  } else {
-    const mQ = matchMedia?.("(pointer:coarse)");
-    if (mQ?.media === "(pointer:coarse)") {
-      return !!mQ.matches;
-    } else if ("orientation" in window) {
-      return true; // deprecated, but good fallback
-    } else {
-      // Only as a last resort, fall back to user agent sniffing
-      const UA = navigator.userAgent;
-      return (
-        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
-      );
-    }
-  }
-});
-
 onMounted(() => {
   const searchedHomes = HomesStore.getSearchedHomes;
   // const allHomes = HomesStore.getHomes;
@@ -102,27 +92,26 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <Header :with-search="false" :mobile="isMobile" />
+    <SiteHeader :with-search="false" />
     <div class="columns">
       <div class="column is-one-quarter">
         <div
           class="box flex-col items-center justify-center sticky top-0"
           style="border-radius: 0px 0px 12px 0px"
         >
-          <n-space justify="center">
-            List
+          <n-space justify="center" align="center">
+            <span class="font-medium">List</span>
             <n-switch
               v-model:value="showMap"
               :round="false"
               :theme-overrides="{ railColorActive: '#3e8ed0' }"
             />
-            Map
+            <span class="font-medium">Map</span>
           </n-space>
-          <Search
+          <SiteSearch
             class="overflow-x-auto w-full rounded-md bg-white"
             type="vertical"
             @searched="onSearch"
-            :mobile="isMobile"
           />
         </div>
       </div>
@@ -134,7 +123,6 @@ onUnmounted(() => {
           :home="homeListings[index]"
           type="wide"
           class="my-4"
-          :mobile="isMobile"
           :show-agent="false"
         />
       </div>
@@ -180,6 +168,6 @@ onUnmounted(() => {
         </ul>
       </nav>
     </div>
-    <Footer />
+    <SiteFooter />
   </main>
 </template>

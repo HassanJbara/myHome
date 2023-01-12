@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHomesStore } from "@/stores";
+
 const HomesStore = useHomesStore();
 </script>
 

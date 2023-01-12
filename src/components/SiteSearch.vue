@@ -11,6 +11,7 @@ import {
   NCheckbox,
   NCheckboxGroup,
   NSlider,
+  NCollapseTransition,
 } from "naive-ui";
 import { useHomesStore } from "@/stores";
 // import api from "@/api";
@@ -142,7 +143,7 @@ function formatTooltip(value: number) {
       "
     >
       <div
-        class="content-center flex text-black bg-white max-w-[90%] rounded-md self-center"
+        class="content-center flex text-black max-w-[90%] rounded-md self-center"
         :class="
           props.type == 'vertical'
             ? 'flex-col w-full'
@@ -166,7 +167,8 @@ function formatTooltip(value: number) {
         <n-collapse
           v-show="props.type == 'vertical'"
           arrow-placement="right"
-          class="mt-2"
+          class="mt-4"
+          :theme-overrides="{ titleFontSize: '18px', titleFontWeight: '600' }"
         >
           <n-collapse-item title="Features" name="1">
             <n-checkbox-group v-model:value="homeFeatures">
@@ -184,26 +186,31 @@ function formatTooltip(value: number) {
           </n-collapse-item>
         </n-collapse>
 
-        <n-space
-          v-show="purposeChoice || props.type == 'horizontal'"
-          vertical
-          :class="props.type == 'vertical' ? 'mt-6' : 'w-1/3'"
+        <n-collapse-transition
+          :show="purposeChoice || props.type == 'horizontal'"
+          :class="props.type == 'vertical' ? 'mt-3' : 'w-1/3'"
         >
-          <span class="font-semibold self-center">
-            {{ purposeChoice == "RENT" ? "Rent" : "Price" }}
-          </span>
-          <n-slider
-            v-model:value="rent"
-            :step="purposeChoice == 'RENT' ? 5 : 1000"
-            :max="purposeChoice == 'RENT' ? 2000 : 10000000"
-            :min="purposeChoice == 'RENT' ? 100 : 100000"
-            :format-tooltip="formatTooltip"
-          />
-        </n-space>
+          <n-space
+            v-show="purposeChoice || props.type == 'horizontal'"
+            vertical
+          >
+            <span class="font-semibold self-center">
+              {{ purposeChoice == "RENT" ? "Rent" : "Price" }}
+            </span>
+            <n-slider
+              v-model:value="rent"
+              :step="purposeChoice == 'RENT' ? 5 : 1000"
+              :max="purposeChoice == 'RENT' ? 2000 : 10000000"
+              :min="purposeChoice == 'RENT' ? 100 : 100000"
+              :format-tooltip="formatTooltip"
+              class="mt-2"
+            />
+          </n-space>
+        </n-collapse-transition>
       </div>
 
       <div
-        class="content-center flex text-black bg-white max-w-[90%] rounded-md self-center"
+        class="content-center flex text-black max-w-[90%] rounded-md self-center"
         :class="
           props.type == 'vertical'
             ? 'flex-col w-full'

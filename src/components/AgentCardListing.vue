@@ -24,8 +24,8 @@ const props = withDefaults(defineProps<Props>(), {});
         </div>
       </div>
       <div class="flex flex-row gap-2 m-2">
-        <inline-svg src="./icons/facebook.svg" width="25" height="25" />
-        <inline-svg src="./icons/twitter.svg" width="25" height="25" />
+        <inline-svg src="/icons/facebook.svg" width="25" height="25" />
+        <inline-svg src="/icons/twitter.svg" width="25" height="25" />
       </div>
     </div>
   </div>

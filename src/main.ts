@@ -28,14 +28,17 @@ const isMobile = computed(() => {
   }
 });
 
+const mapsKey = "AIzaSyCN6tP3i10XQ2uBISjbG8kqSI-H-w54TVo";
+
 app.use(VueEasyLightbox);
 app.use(createPinia());
 app.use(router);
 app.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyCN6tP3i10XQ2uBISjbG8kqSI-H-w54TVo",
+    key: mapsKey,
   },
 });
 app.provide("isMobile", isMobile.value);
+app.provide("mapsKey", mapsKey);
 
 app.mount("#app");
