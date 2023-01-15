@@ -1,10 +1,12 @@
 export type {
   home_type,
   property_type,
+  AddHomeAddress,
   HomePosition,
   HomeFeatures,
   HomeSpecifications,
   HomeAddress,
+  HomeInfo,
   HomesNewProperty,
   HomesSearch,
   Home,

@@ -1,4 +1,8 @@
 export { default as AgentCardListing } from "./AgentCardListing.vue";
+export { default as AddPropertySpecifications } from "./AddPropertySpecifications.vue";
+export { default as AddPropertyBasicInfo } from "./AddPropertyBasicInfo.vue";
+export { default as AddPropertyFeatures } from "./AddPropertyFeatures.vue";
+export { default as AddPropertyAddress } from "./AddPropertyAddress.vue";
 export { default as HomeListingCard } from "./HomeListingCard.vue";
 export { default as MapInfoWindow } from "./MapInfoWindow.vue";
 export { default as AgentListings } from "./AgentListings.vue";

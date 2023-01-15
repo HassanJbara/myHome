@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from "vue";
 
 interface Props {
@@ -44,4 +44,4 @@ const value = ref<string>();
   </div>
 </template>
 
-<style></style>
+<style></style> -->
