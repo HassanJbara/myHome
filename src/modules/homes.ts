@@ -2,9 +2,20 @@ import type { Agent } from "@/modules";
 
 export const home_types = ["APPARTMENT", "DUPLEX", "HOUSE", "STUDIO"] as const;
 export const property_types = ["RENT", "SALE"] as const;
+export const home_features = [
+  "pet_friendly",
+  "balcony",
+  "clubhouse",
+  "dishwasher",
+  "elevator",
+  "spa",
+  "fitness_center",
+  "pool",
+  "modern_kitchen",
+] as const;
 
-export type home_type = typeof home_types[number];
-export type property_type = typeof property_types[number];
+export type home_type = (typeof home_types)[number];
+export type property_type = (typeof property_types)[number];
 
 export interface HomePosition {
   lat: number;
@@ -37,6 +48,19 @@ export interface HomeAddress {
   position: HomePosition;
 }
 
+export type AddHomeAddress = Pick<
+  HomeAddress,
+  "city" | "house_number" | "street" | "plz"
+>;
+
+export interface HomeInfo {
+  home_name: string;
+  home_type: string;
+  property_type: string;
+  listing_text: string;
+  rent: number;
+}
+
 export interface Home {
   id: number;
   home_name: string;
@@ -52,33 +76,17 @@ export interface Home {
 }
 
 export interface HomesNewProperty {
-  info: {
-    home_name: string;
-    home_type: string;
-    property_type: string;
-    listing_text: string;
-    rent: number;
-  };
+  info: HomeInfo;
   address: { city: string; street: string; house_number: number; plz: string };
-  features: {
-    pet_friendly: boolean;
-    balcony: boolean;
-    clubhouse: boolean;
-    dishwasher: boolean;
-    elevator: boolean;
-    spa: boolean;
-    fitness_center: boolean;
-    pool: boolean;
-    modern_kitchen: boolean;
-  };
-  specifications: { rooms: number; baths: number; space: number };
+  features: HomeFeatures;
+  specifications: HomeSpecifications;
 }
 
 export interface HomesSearch {
-  city: string | null;
-  home_type: string | null;
-  property_type: string | null;
-  rooms: number | null;
+  city: string | undefined;
+  home_type: home_type | undefined;
+  property_type: property_type | undefined;
+  rooms: number | undefined;
   features: string | undefined;
-  rent: number | null;
+  rent: number | undefined;
 }
