@@ -11,6 +11,6 @@ export type {
   HomesSearch,
   Home,
 } from "./homes";
-export { property_types, home_types } from "./homes";
+export { property_types, home_types, home_features } from "./homes";
 
 export type { Agent } from "./agents";

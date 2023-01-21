@@ -1,33 +1,32 @@
 <script setup lang="ts">
 import { ref, computed, inject } from "vue";
+import { NAutoComplete } from "naive-ui";
 import _ from "lodash";
-import {
-  NSelect,
-  NSpace,
-  NInput,
-  NAutoComplete,
-  NCollapse,
-  NCollapseItem,
-  NCheckbox,
-  NCheckboxGroup,
-  NSlider,
-  NCollapseTransition,
-} from "naive-ui";
+
+import { home_types, property_types } from "@/modules";
 import { useHomesStore } from "@/stores";
+import { useSearch } from "@/composables";
 // import api from "@/api";
-// import type { Home } from "@/modules/homes";
+import {
+  SearchCity,
+  SearchFeatures,
+  SearchRent,
+  SearchSelection,
+} from "@/components";
 
 interface Props {
   type?: "vertical" | "horizontal";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   type: "horizontal",
 });
 
-const HomesStore = useHomesStore();
-
 const mobile = inject<boolean>("isMobile", false);
+const homeFeatures = ref<string[] | undefined>(undefined);
+
+const HomesStore = useHomesStore();
+const { searchData, setFeatures } = useSearch();
 
 // function getShow(input: string) {
 //   if (cityChoice.value) {
@@ -45,8 +44,6 @@ const mobile = inject<boolean>("isMobile", false);
 //   }
 // }
 
-const cityChoice = ref(null);
-
 // Implement auto complete later.
 // const cityOptions = ["leipzig", "berlin"];
 
@@ -59,21 +56,8 @@ const cityChoice = ref(null);
 //   });
 // });
 
-const propertyTypeChoice = ref(null);
-const propertyTypeOprions = [
-  { value: "APPARTMENT", label: "Appartment" },
-  { value: "DUPLEX", label: "Duplex" },
-  { value: "HOUSE", label: "House" },
-  { value: "STUDIO", label: "Studio" },
-];
-
-const purposeChoice = ref(null);
-const purposeOptions = [
-  { value: "RENT", label: "Rent" },
-  { value: "SALE", label: "Sale" },
-];
-
-const bedroomChoice = ref(null);
+// is for now not used in the search
+const bedroomChoice = ref(undefined);
 const bedroomsOptions = [
   { value: 1, label: "1" },
   { value: 2, label: "2" },
@@ -81,7 +65,8 @@ const bedroomsOptions = [
   { value: 4, label: "4" },
 ];
 
-const bathsChoice = ref(null);
+// is for now not used in the search
+const bathsChoice = ref(undefined);
 const bathsOptions = [
   { value: 1, label: "1" },
   { value: 2, label: "2" },
@@ -89,47 +74,21 @@ const bathsOptions = [
   { value: 4, label: "4" },
 ];
 
-const homeFeatures = ref<string[] | null>(null);
-const homeFeaturesStrings = [
-  "pet_friendly",
-  "balcony",
-  "clubhouse",
-  "dishwasher",
-  "elevator",
-  "spa",
-  "fitness_center",
-  "pool",
-  "modern_kitchen",
-];
-
-const rent = ref(100);
-
 async function search() {
-  HomesStore.search({
-    city: cityChoice.value,
-    home_type: propertyTypeChoice.value,
-    property_type: purposeChoice.value,
-    rooms: bedroomChoice.value,
-    features: homeFeatures.value?.join(","),
-    rent: purposeChoice.value ? rent.value : null, //Rent should be reset if necessary, thus null
-  });
+  HomesStore.search(searchData.value);
   emit("searched");
 }
 
 const emit = defineEmits<{
   (e: "searched"): void;
 }>();
-
-function formatTooltip(value: number) {
-  return value.toLocaleString() + "€";
-}
 </script>
 
 <template>
   <div
     class="content-center flex max-w-[90%] self-center"
     :class="
-      props.type == 'vertical'
+      type == 'vertical'
         ? 'flex-col w-full m-4'
         : 'flex-row w-2/3 justify-evenly py-2 my-6 overflow-hidden'
     "
@@ -137,7 +96,7 @@ function formatTooltip(value: number) {
     <div
       class="content-center flex text-black"
       :class="
-        props.type == 'vertical'
+        type == 'vertical'
           ? 'flex-col w-full'
           : 'flex-col w-4/5 justify-between gap-5'
       "
@@ -145,129 +104,69 @@ function formatTooltip(value: number) {
       <div
         class="content-center flex text-black max-w-[90%] rounded-md self-center"
         :class="
-          props.type == 'vertical'
+          type == 'vertical'
             ? 'flex-col w-full'
             : 'flex-row w-full justify-between'
         "
       >
-        <n-space
-          vertical
-          size="medium"
-          :class="props.type == 'vertical' ? '' : 'w-1/3'"
-        >
-          <span class="font-semibold self-center">City:</span>
-          <n-input
-            v-model:value="cityChoice"
-            type="text"
-            placeholder="City"
-            clearable
-          />
-        </n-space>
+        <SearchCity v-model:city="searchData.city" :type="type" />
 
-        <n-collapse
-          v-show="props.type == 'vertical'"
-          arrow-placement="right"
-          class="mt-4"
-          :theme-overrides="{ titleFontSize: '18px', titleFontWeight: '600' }"
-        >
-          <n-collapse-item title="Features" name="1">
-            <n-checkbox-group v-model:value="homeFeatures">
-              <n-space
-                item-style="display: flex; justify-content: space-between;"
-              >
-                <n-checkbox
-                  v-for="feature in homeFeaturesStrings"
-                  :key="feature"
-                  :value="feature"
-                  :label="_.startCase(feature)"
-                />
-              </n-space>
-            </n-checkbox-group>
-          </n-collapse-item>
-        </n-collapse>
+        <SearchFeatures
+          v-model:home-features="homeFeatures"
+          @input="setFeatures(homeFeatures)"
+          :type="type"
+        />
 
-        <n-collapse-transition
-          :show="purposeChoice || props.type == 'horizontal'"
-          :class="props.type == 'vertical' ? 'mt-3' : 'w-1/3'"
-        >
-          <n-space
-            v-show="purposeChoice || props.type == 'horizontal'"
-            vertical
-          >
-            <span class="font-semibold self-center">
-              {{ purposeChoice == "RENT" ? "Rent" : "Price" }}
-            </span>
-            <n-slider
-              v-model:value="rent"
-              :step="purposeChoice == 'RENT' ? 5 : 1000"
-              :max="purposeChoice == 'RENT' ? 2000 : 10000000"
-              :min="purposeChoice == 'RENT' ? 100 : 100000"
-              :format-tooltip="formatTooltip"
-              class="mt-2"
-            />
-          </n-space>
-        </n-collapse-transition>
+        <SearchRent
+          v-model:rent="searchData.rent"
+          :property-type="searchData.property_type"
+          :type="type"
+        />
       </div>
 
       <div
         class="content-center flex text-black max-w-[90%] rounded-md self-center"
         :class="
-          props.type == 'vertical'
+          type == 'vertical'
             ? 'flex-col w-full'
             : 'flex-row w-full justify-between'
         "
       >
-        <n-space
-          vertical
-          size="medium"
-          :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
-        >
-          <span class="font-semibold self-center">Type:</span>
-          <n-select
-            v-model:value="propertyTypeChoice"
-            :options="propertyTypeOprions"
-            clearable
-          />
-        </n-space>
+        <SearchSelection
+          title="Type"
+          :type="type"
+          v-model:choice="searchData.home_type"
+          :options="
+            home_types.map((h_t) => {
+              return { value: h_t, label: _.capitalize(h_t) };
+            })
+          "
+        />
 
-        <n-space
-          vertical
-          size="medium"
-          :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
-        >
-          <span class="font-semibold self-center">Purpose:</span>
-          <n-select
-            v-model:value="purposeChoice"
-            :options="purposeOptions"
-            clearable
-          />
-        </n-space>
+        <SearchSelection
+          title="Purpose"
+          :type="type"
+          v-model:choice="searchData.property_type"
+          :options="
+            property_types.map((p_t) => {
+              return { value: p_t, label: _.capitalize(p_t) };
+            })
+          "
+        />
 
-        <n-space
-          vertical
-          size="medium"
-          :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
-        >
-          <span class="font-semibold self-center">Beds:</span>
-          <n-select
-            v-model:value="bedroomChoice"
-            :options="bedroomsOptions"
-            clearable
-          />
-        </n-space>
+        <SearchSelection
+          title="Beds"
+          :type="type"
+          :options="bedroomsOptions"
+          v-model:choice="bedroomChoice"
+        />
 
-        <n-space
-          vertical
-          size="medium"
-          :class="props.type == 'vertical' ? 'mt-4' : 'w-1/5'"
-        >
-          <span class="font-semibold self-center">Baths:</span>
-          <n-select
-            v-model:value="bathsChoice"
-            :options="bathsOptions"
-            clearable
-          />
-        </n-space>
+        <SearchSelection
+          title="Baths"
+          :type="type"
+          :options="bathsOptions"
+          v-model:choice="bathsChoice"
+        />
       </div>
     </div>
 
@@ -275,9 +174,7 @@ function formatTooltip(value: number) {
       to="/allhomes"
       class="p-2 bg-[#00d1b2] hover:bg-teal-500 transition-colors ease-in-out delay-200"
       :class="
-        props.type == 'vertical'
-          ? 'rounded-md mx-2 mt-4'
-          : 'rounded-r-md -my-2 w-1/5'
+        type == 'vertical' ? 'rounded-md mx-2 mt-4' : 'rounded-r-md -my-2 w-1/5'
       "
       @click="search"
     >

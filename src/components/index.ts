@@ -1,8 +1,12 @@
 export { default as AgentCardListing } from "./AgentCardListing.vue";
-export { default as AddPropertySpecifications } from "./AddPropertySpecifications.vue";
-export { default as AddPropertyBasicInfo } from "./AddPropertyBasicInfo.vue";
-export { default as AddPropertyFeatures } from "./AddPropertyFeatures.vue";
-export { default as AddPropertyAddress } from "./AddPropertyAddress.vue";
+export { default as AddPropertySpecifications } from "./add-property/AddPropertySpecifications.vue";
+export { default as AddPropertyBasicInfo } from "./add-property/AddPropertyBasicInfo.vue";
+export { default as AddPropertyFeatures } from "./add-property/AddPropertyFeatures.vue";
+export { default as AddPropertyAddress } from "./add-property/AddPropertyAddress.vue";
+export { default as SearchCity } from "./search/SearchCity.vue";
+export { default as SearchFeatures } from "./search/SearchFeatures.vue";
+export { default as SearchRent } from "./search/SearchRent.vue";
+export { default as SearchSelection } from "./search/SearchSelection.vue";
 export { default as HomeListingCard } from "./HomeListingCard.vue";
 export { default as MapInfoWindow } from "./MapInfoWindow.vue";
 export { default as AgentListings } from "./AgentListings.vue";
