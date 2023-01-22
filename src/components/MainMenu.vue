@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { NModal } from "naive-ui";
+import { ref } from "vue";
+
 import { useHomesStore } from "@/stores";
+import { UserLoginSignup } from "@/components";
+
+const showLoginModal = ref(false);
+const showSignupModal = ref(false);
 
 const HomesStore = useHomesStore();
 </script>
@@ -56,10 +63,29 @@ const HomesStore = useHomesStore();
               <strong>Add Propery</strong>
             </router-link>
 
-            <a class="button is-light">
+            <a class="button is-light" @click="showSignupModal = true">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light"> Log in </a>
+            <n-modal
+              v-model:show="showSignupModal"
+              preset="card"
+              title="Account Information"
+              class="w-1/4 h-[600px]"
+            >
+              <UserLoginSignup type="signup" />
+            </n-modal>
+
+            <a class="button is-light" @click="showLoginModal = true">
+              Log in
+            </a>
+            <n-modal
+              v-model:show="showLoginModal"
+              preset="card"
+              title="Account Information"
+              class="w-1/4 h-[600px]"
+            >
+              <UserLoginSignup type="login" />
+            </n-modal>
           </div>
         </div>
       </div>

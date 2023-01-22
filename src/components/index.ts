@@ -13,6 +13,7 @@ export { default as AgentListings } from "./AgentListings.vue";
 export { default as HomeListings } from "./HomeListings.vue";
 export { default as AgentCard } from "./AgentCard.vue";
 export { default as MainMenu } from "./MainMenu.vue";
+export { default as UserLoginSignup } from "./UserLoginSignup.vue";
 export { default as HomesMap } from "./HomesMap.vue";
 export { default as SiteHeader } from "./SiteHeader.vue";
 export { default as SiteFooter } from "./SiteFooter.vue";
