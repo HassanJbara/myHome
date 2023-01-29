@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NModal } from "naive-ui";
+import InlineSvg from "vue-inline-svg";
 import { ref } from "vue";
 
 import { useHomesStore } from "@/stores";
@@ -61,6 +62,15 @@ const HomesStore = useHomesStore();
               :to="{ name: 'add-property' }"
             >
               <strong>Add Propery</strong>
+            </router-link>
+
+            <router-link class="button is-info" :to="{ name: 'own-account' }">
+              <inline-svg
+                src="/icons/user-solid.svg"
+                width="30"
+                height="30"
+                fill="white"
+              />
             </router-link>
 
             <a class="button is-light" @click="showSignupModal = true">

@@ -10,6 +10,7 @@ import {
   HomeListingView,
   AddPropertyView,
   NotFoundView,
+  OwnAccountView,
 } from "@/views";
 
 import { useHomesStore } from "@/stores";
@@ -42,6 +43,11 @@ const routes = [
     path: "/add-property",
     name: "add-property",
     component: AddPropertyView,
+  },
+  {
+    path: "/own-account",
+    name: "own-account",
+    component: OwnAccountView,
   },
   {
     path: "/:pathMatch(.*)*",

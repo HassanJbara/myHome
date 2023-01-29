@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SiteHeader, SiteFooter } from "@/components";
+
 import { NResult } from "naive-ui";
 </script>
 
@@ -10,7 +11,7 @@ import { NResult } from "naive-ui";
       status="error"
       title="404 Not Found"
       description="The page or home you are looking for couldn't be found"
-      class="h-[69vh] p-10 flex flex-col items-center justify-center"
+      class="h-[60vh] p-10 flex flex-col items-center justify-center"
     />
     <SiteFooter />
   </main>

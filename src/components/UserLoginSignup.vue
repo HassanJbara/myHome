@@ -23,7 +23,7 @@ function login() {
 
 <template>
   <div class="w-full h-full flex flex-col items-center justify-evenly">
-    <inline-svg src="/icons/user.svg" width="200" height="200" fill="#072c61" />
+    <inline-svg src="/icons/user.svg" width="200" height="200" />
 
     <div class="w-full h-full flex flex-col justify-center items-center gap-4">
       <div class="flex flex-row w-full items-center">
