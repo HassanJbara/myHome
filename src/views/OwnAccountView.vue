@@ -10,6 +10,7 @@ import {
 import InlineSvg from "vue-inline-svg";
 import { NLayout, NLayoutSider, NMenu } from "naive-ui";
 import { h, ref } from "vue";
+import type { Home, User } from "@/modules";
 
 const activeKey = ref<string | null>(null);
 
@@ -59,19 +60,206 @@ const menuOptions = [
             src: "/icons/house-sale.svg",
             width: "20",
             height: "20",
-            fill: getIconFill("created"),
+            fill: getIconFill("ads"),
           }),
       },
     ],
   },
 ];
+
+const wishlistHomes: Home[] = [
+  {
+    id: 0,
+    home_name: "home 1",
+    home_type: "APPARTMENT",
+    address: {
+      city: "leipzig",
+      house_number: 15,
+      plz: "00000",
+      street: "street",
+      position: { lat: 0, lng: 0 },
+    },
+    agent: {
+      id: 0,
+      agent_email: "",
+      agent_facebook: "",
+      agent_img: "",
+      agent_job: "",
+      agent_phone: "",
+      agent_name: "",
+      agent_twitter: "",
+    },
+    features: {
+      balcony: false,
+      clubhouse: false,
+      dishwasher: false,
+      elevator: false,
+      fitness_center: false,
+      modern_kitchen: false,
+      pet_friendly: false,
+      pool: false,
+      spa: false,
+    },
+    gallery_images: [
+      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
+    ],
+    listing_text: "",
+    property_type: "RENT",
+    rent: 220,
+    specifications: {
+      baths: 0,
+      rooms: 0,
+      space: 0,
+    },
+  },
+  {
+    id: 1,
+    home_name: "home 1",
+    home_type: "APPARTMENT",
+    address: {
+      city: "leipzig",
+      house_number: 15,
+      plz: "00000",
+      street: "street",
+      position: { lat: 0, lng: 0 },
+    },
+    agent: {
+      id: 0,
+      agent_email: "",
+      agent_facebook: "",
+      agent_img: "",
+      agent_job: "",
+      agent_phone: "",
+      agent_name: "",
+      agent_twitter: "",
+    },
+    features: {
+      balcony: false,
+      clubhouse: false,
+      dishwasher: false,
+      elevator: false,
+      fitness_center: false,
+      modern_kitchen: false,
+      pet_friendly: false,
+      pool: false,
+      spa: false,
+    },
+    gallery_images: [
+      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
+    ],
+    listing_text: "",
+    property_type: "RENT",
+    rent: 220,
+    specifications: {
+      baths: 0,
+      rooms: 0,
+      space: 0,
+    },
+  },
+  {
+    id: 2,
+    home_name: "home 1",
+    home_type: "APPARTMENT",
+    address: {
+      city: "leipzig",
+      house_number: 15,
+      plz: "00000",
+      street: "street",
+      position: { lat: 0, lng: 0 },
+    },
+    agent: {
+      id: 0,
+      agent_email: "",
+      agent_facebook: "",
+      agent_img: "",
+      agent_job: "",
+      agent_phone: "",
+      agent_name: "",
+      agent_twitter: "",
+    },
+    features: {
+      balcony: false,
+      clubhouse: false,
+      dishwasher: false,
+      elevator: false,
+      fitness_center: false,
+      modern_kitchen: false,
+      pet_friendly: false,
+      pool: false,
+      spa: false,
+    },
+    gallery_images: [
+      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
+    ],
+    listing_text: "",
+    property_type: "RENT",
+    rent: 220,
+    specifications: {
+      baths: 0,
+      rooms: 0,
+      space: 0,
+    },
+  },
+  {
+    id: 3,
+    home_name: "home 1",
+    home_type: "APPARTMENT",
+    address: {
+      city: "leipzig",
+      house_number: 15,
+      plz: "00000",
+      street: "street",
+      position: { lat: 0, lng: 0 },
+    },
+    agent: {
+      id: 0,
+      agent_email: "",
+      agent_facebook: "",
+      agent_img: "",
+      agent_job: "",
+      agent_phone: "",
+      agent_name: "",
+      agent_twitter: "",
+    },
+    features: {
+      balcony: false,
+      clubhouse: false,
+      dishwasher: false,
+      elevator: false,
+      fitness_center: false,
+      modern_kitchen: false,
+      pet_friendly: false,
+      pool: false,
+      spa: false,
+    },
+    gallery_images: [
+      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
+    ],
+    listing_text: "",
+    property_type: "RENT",
+    rent: 220,
+    specifications: {
+      baths: 0,
+      rooms: 0,
+      space: 0,
+    },
+  },
+];
+
+const user: User = {
+  id: 0,
+  username: "alex",
+  email: "my@email.com",
+  adsHomes: [],
+  wishlistedHomes: wishlistHomes,
+};
 </script>
 
 <template>
-  <main>
+  <body>
     <SiteHeader :with-search="false" />
 
-    <n-layout has-sider class="h-[66vh]">
+    <n-layout has-sider class="h-[73vh]">
       <n-layout-sider
         bordered
         :width="240"
@@ -96,12 +284,24 @@ const menuOptions = [
       </n-layout-sider>
 
       <n-layout>
-        <MyInfo v-if="activeKey === 'my-info'" />
-        <MyWishlist v-else-if="activeKey === 'wishlist'" />
-        <MyAds v-else-if="activeKey === 'ads'" />
+        <Transition
+          enter-active-class="duration-300 ease-out"
+          enter-from-class="transform opacity-0"
+          enter-to-class="opacity-100"
+          leave-active-class="duration-300 ease-in"
+          leave-from-class="opacity-100"
+          leave-to-class="transform opacity-0"
+        >
+          <MyInfo :user="user" v-if="activeKey === 'my-info'" />
+          <MyWishlist
+            :homes="user.wishlistedHomes"
+            v-else-if="activeKey === 'wishlist'"
+          />
+          <MyAds v-else-if="activeKey === 'ads'" />
+        </Transition>
       </n-layout>
     </n-layout>
 
     <SiteFooter class="mt-0" />
-  </main>
+  </body>
 </template>

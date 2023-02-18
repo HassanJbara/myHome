@@ -2,25 +2,35 @@
 import type { Home } from "@/modules";
 
 import InlineSvg from "vue-inline-svg";
-import { NCarousel } from "naive-ui";
-import { inject } from "vue";
+import { NCarousel, NButton } from "naive-ui";
+import { inject, ref } from "vue";
 
 interface Props {
   home: Home;
   type?: "tall" | "wide";
   showAgent?: boolean;
+  wishlisted: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: "tall",
   showAgent: true,
+  wishlisted: false,
 });
 
 const mobile = inject<boolean>("isMobile", false);
+
+const wishlistedRef = ref<boolean>(props.wishlisted);
+const showHeart = ref<boolean>(false);
 </script>
 
 <template>
-  <div class="card" v-if="type == 'tall'">
+  <div
+    class="card"
+    v-if="type == 'tall'"
+    @mouseover="showHeart = true"
+    @mouseleave="showHeart = false"
+  >
     <div class="card-image">
       <div
         class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
@@ -32,6 +42,26 @@ const mobile = inject<boolean>("isMobile", false);
       >
         {{ home.property_type }}
       </div>
+
+      <n-button
+        class="z-50 absolute top-0 right-0 p-4 ease-in-out duration-300"
+        :class="showHeart ? '  opacity-1' : ' opacity-0'"
+        text
+        style="font-size: 24px"
+        @click="wishlistedRef = !wishlistedRef"
+      >
+        <InlineSvg
+          :src="
+            wishlistedRef
+              ? '/icons/heart-solid.svg'
+              : '/icons/heart-regular.svg'
+          "
+          width="30"
+          height="30"
+          fill="#ff6e8b"
+        />
+      </n-button>
+
       <n-carousel
         :show-arrow="home.gallery_images.length > 1"
         :show-dots="home.gallery_images.length > 1"
