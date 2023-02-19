@@ -79,7 +79,7 @@ const passwordInfo = ref({
           <button
             class="button is-primary font-semibold self-center"
             :disabled="editing"
-            @click="passwordEdit = true"
+            @click="passwordEdit = !passwordEdit"
           >
             Set a New Password?
           </button>
@@ -101,31 +101,43 @@ const passwordInfo = ref({
         </div>
 
         <div class="mx-6 my-3 flex flex-col gap-8">
-          <span v-if="!editing" class="text-lg">{{ user.username }}</span>
-          <n-input
-            v-else
-            type="text"
-            :placeholder="user.username"
-            v-model:value="userRef.username"
-          />
-
-          <n-divider />
-
-          <span v-if="!editing" class="text-lg">{{ user.email }}</span>
-          <n-input
-            v-else
-            type="text"
-            :placeholder="user.email"
-            v-model:value="userRef.email"
-          />
-
-          <n-divider />
-
-          <button
-            class="button is-primary font-semibold self-center invisible"
-            :disabled="editing"
-            @click="passwordEdit = true"
+          <Transition
+            mode="out-in"
+            enter-active-class="duration-150 ease-out transition-all"
+            enter-from-class="translate-y-7 opacity-0"
+            leave-active-class="duration-150 ease-out transition-all"
+            leave-to-class="-translate-y-7 opacity-0"
           >
+            <span v-if="!editing" class="text-lg">{{ user.username }}</span>
+            <n-input
+              v-else
+              type="text"
+              :placeholder="user.username"
+              v-model:value="userRef.username"
+            />
+          </Transition>
+
+          <n-divider />
+          <Transition
+            mode="out-in"
+            enter-active-class="duration-150 ease-out transition-all"
+            enter-from-class="translate-y-7 opacity-0"
+            leave-active-class="duration-150 ease-out transition-all"
+            leave-to-class="-translate-y-7 opacity-0"
+          >
+            <span v-if="!editing" class="text-lg">{{ user.email }}</span>
+            <n-input
+              v-else
+              type="text"
+              :placeholder="user.email"
+              v-model:value="userRef.email"
+            />
+          </Transition>
+
+          <n-divider />
+
+          <!-- this is a dummy -->
+          <button class="button is-primary font-semibold self-center invisible">
             Set a New Password?
           </button>
 
@@ -150,14 +162,6 @@ const passwordInfo = ref({
             />
           </n-collapse-transition>
         </div>
-        <!-- <div class="mx-6 my-3 flex flex-row gap-2">
-        <span class="text-lg font-semibold">E-Mail:</span>
-        <span class="text-lg">{{ user.email }}</span>
-      </div>
-      <div class="mx-6 my-3 flex flex-row gap-2">
-        <span class="text-lg font-semibold">E-Mail:</span>
-        <span class="text-lg">{{ user.email }}</span>
-      </div> -->
       </div>
     </n-scrollbar>
 

@@ -285,19 +285,18 @@ const user: User = {
 
       <n-layout>
         <Transition
-          enter-active-class="duration-300 ease-out"
-          enter-from-class="transform opacity-0"
-          enter-to-class="opacity-100"
-          leave-active-class="duration-300 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="transform opacity-0"
+          mode="out-in"
+          enter-active-class="duration-300 ease-out transition-all"
+          enter-from-class="translate-y-7 opacity-0"
+          leave-active-class="duration-300 ease-out transition-all"
+          leave-to-class="-translate-y-7 opacity-0"
         >
           <MyInfo :user="user" v-if="activeKey === 'my-info'" />
           <MyWishlist
             :homes="user.wishlistedHomes"
             v-else-if="activeKey === 'wishlist'"
           />
-          <MyAds v-else-if="activeKey === 'ads'" />
+          <MyAds :homes="user.adsHomes" v-else-if="activeKey === 'ads'" />
         </Transition>
       </n-layout>
     </n-layout>
