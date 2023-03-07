@@ -1,60 +1,89 @@
 import { defineStore } from "pinia";
+import { useLocalStorage } from "@vueuse/core";
+
 import api from "@/api";
-
-export interface User {
-  name: string;
-}
-
-interface AuthCredentials {
-  username: string;
-  password: string;
-}
-
-interface AuthState {
-  user: User | undefined;
-  token: string;
-}
+import type {
+  User,
+  AuthState,
+  AuthCredentials,
+  RegisterCredentials,
+  RegisterError,
+} from "@/modules";
 
 const defaultState = (): AuthState => {
   return {
-    user: undefined,
-    token: "",
+    user: useLocalStorage("user", undefined),
+    token: useLocalStorage("token", ""),
+    refreshToken: useLocalStorage("refreshToken", ""),
   };
 };
 
 export const useAuthStore = defineStore("auth", {
   state: defaultState,
+
   getters: {
     getUser: (state) => state.user,
-    getUsername: (state) => state.user?.name,
+    getUsername: (state) => state.user?.username,
     getToken: (state) => state.token,
+    getRefreshToken: (state) => state.refreshToken,
     isAuthenticated: (state) => !!state.user && !!state.token,
   },
+
   actions: {
-    LOGIN(credentials: AuthCredentials) {
+    LOGIN(
+      credentials: AuthCredentials
+    ): Promise<{ success: boolean; msg: string }> {
       return api.auth
-        .login(credentials.username, credentials.password)
+        .login(credentials)
         .then(({ data }) => {
-          this.SET_USER({
-            name: credentials.username,
-          });
-          this.SET_TOKEN(data.token);
+          this.SET_USER(data.user);
+          this.SET_TOKEN(data.access);
+          this.SET_REFRESH(data.refresh);
+          return { success: true, msg: data.msg };
+        })
+        .catch((error) => {
+          return { success: false, msg: error.response.data.msg };
         });
     },
+
+    REGISTER(
+      credentials: RegisterCredentials
+    ): Promise<{ success: boolean; msg?: string; errors?: RegisterError }> {
+      return api.auth
+        .register(credentials)
+        .then(({ data }) => {
+          return { success: true, msg: data.msg };
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          return { success: false, errors: error.response.data };
+        });
+    },
+
+    REFRESH() {
+      return api.auth.refresh(this.getRefreshToken).then(({ data }) => {
+        this.SET_TOKEN(data.access);
+      });
+    },
+
     LOGOUT() {
       return api.auth.logout().then(() => {
         this.SET_USER(undefined);
         this.SET_TOKEN("");
+        this.SET_REFRESH("");
       });
     },
-    // REGISTER(credentials: AuthCredentials) {
-    //   return api.auth.register(credentials.username, credentials.password);
-    // },
+
     SET_USER(user: User | undefined) {
       this.user = user;
     },
+
     SET_TOKEN(token: string) {
       this.token = token;
+    },
+
+    SET_REFRESH(refreshToken: string) {
+      this.refreshToken = refreshToken;
     },
   },
 });

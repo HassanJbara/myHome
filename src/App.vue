@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { NMessageProvider, NLoadingBarProvider } from "naive-ui";
+import { onMounted } from "vue";
+import { useAuthStore } from "./stores";
 
 document.title = "myHome";
+const authStore = useAuthStore();
+
+onMounted(() => {
+  setInterval(() => {
+    if (authStore.getToken) {
+      authStore.REFRESH();
+    }
+  }, 150000);
+});
 </script>
 
 <template>

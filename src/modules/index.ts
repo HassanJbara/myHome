@@ -14,4 +14,10 @@ export type {
 export { property_types, home_types, home_features } from "./homes";
 
 export type { Agent } from "./agents";
-export type { User } from "./users";
+export type {
+  User,
+  AuthCredentials,
+  AuthState,
+  RegisterCredentials,
+  RegisterError,
+} from "./users";
