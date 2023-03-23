@@ -1,27 +1,53 @@
 <script setup lang="ts">
 import type { Home } from "@/modules";
+import api from "@/api";
+import { useAuthStore } from "@/stores";
 
 import InlineSvg from "vue-inline-svg";
-import { NCarousel, NButton } from "naive-ui";
-import { inject, ref } from "vue";
+import { NCarousel, NButton, useMessage } from "naive-ui";
+import { inject, ref, computed } from "vue";
 
 interface Props {
   home: Home;
   type?: "tall" | "wide";
   showAgent?: boolean;
-  wishlisted: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: "tall",
   showAgent: true,
-  wishlisted: false,
 });
 
 const mobile = inject<boolean>("isMobile", false);
-
-const wishlistedRef = ref<boolean>(props.wishlisted);
 const showHeart = ref<boolean>(false);
+
+const authStore = useAuthStore();
+const msg = useMessage();
+
+const wishlistedRef = computed(() => {
+  if (authStore.getUser) {
+    return authStore.getUser.wishlisted.includes(props.home);
+  } else {
+    return undefined;
+  }
+});
+
+function wishlist() {
+  if (authStore.getUser) {
+    api.homes
+      .wishlistProperty(
+        {
+          wishlisted_home_id: props.home.id,
+          wishlisting_user_id: authStore.getUser.id,
+        },
+        authStore.getToken
+      )
+      .then(() => {
+        authStore.ADD_TO_WISHLIST(props.home);
+        msg.info("Home Wishlisted");
+      });
+  }
+}
 </script>
 
 <template>
@@ -44,11 +70,12 @@ const showHeart = ref<boolean>(false);
       </div>
 
       <n-button
+        v-if="authStore.isAuthenticated"
         class="z-50 absolute top-0 right-0 p-4 ease-in-out duration-300"
         :class="showHeart ? '  opacity-1' : ' opacity-0'"
         text
         style="font-size: 24px"
-        @click="wishlistedRef = !wishlistedRef"
+        @click="wishlist()"
       >
         <InlineSvg
           :src="

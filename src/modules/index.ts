@@ -10,6 +10,7 @@ export type {
   HomesNewProperty,
   HomesSearch,
   Home,
+  HomesWishlistRequest,
 } from "./homes";
 export { property_types, home_types, home_features } from "./homes";
 

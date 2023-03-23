@@ -8,6 +8,7 @@ import type {
   AuthCredentials,
   RegisterCredentials,
   RegisterError,
+  Home,
 } from "@/modules";
 
 const defaultState = (): AuthState => {
@@ -89,6 +90,14 @@ export const useAuthStore = defineStore("auth", {
 
     SET_REFRESH(refreshToken: string) {
       this.refreshToken = refreshToken;
+    },
+
+    ADD_TO_WISHLIST(newHome: Home) {
+      if (this.user) {
+        this.user.wishlisted.push(newHome);
+      } else {
+        console.error("Not logged in, can't wishlist!");
+      }
     },
   },
 });
