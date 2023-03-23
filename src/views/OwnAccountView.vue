@@ -6,13 +6,16 @@ import {
   MyWishlist,
   MyAds,
 } from "@/components";
+import { useAuthStore } from "@/stores";
+import router from "@/router";
 
 import InlineSvg from "vue-inline-svg";
-import { NLayout, NLayoutSider, NMenu } from "naive-ui";
+import { NLayout, NLayoutSider, NMenu, NButton } from "naive-ui";
 import { h, ref } from "vue";
-import type { Home, User } from "@/modules";
 
 const activeKey = ref<string | null>(null);
+
+const authStore = useAuthStore();
 
 function getIconFill(value: string) {
   return value === activeKey.value ? "white" : "black";
@@ -67,192 +70,13 @@ const menuOptions = [
   },
 ];
 
-const wishlistHomes: Home[] = [
-  {
-    id: 0,
-    home_name: "home 1",
-    home_type: "APPARTMENT",
-    address: {
-      city: "leipzig",
-      house_number: 15,
-      plz: "00000",
-      street: "street",
-      position: { lat: 0, lng: 0 },
-    },
-    agent: {
-      id: 0,
-      agent_email: "",
-      agent_facebook: "",
-      agent_img: "",
-      agent_job: "",
-      agent_phone: "",
-      agent_name: "",
-      agent_twitter: "",
-    },
-    features: {
-      balcony: false,
-      clubhouse: false,
-      dishwasher: false,
-      elevator: false,
-      fitness_center: false,
-      modern_kitchen: false,
-      pet_friendly: false,
-      pool: false,
-      spa: false,
-    },
-    gallery_images: [
-      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
-    ],
-    listing_text: "",
-    property_type: "RENT",
-    rent: 220,
-    specifications: {
-      baths: 0,
-      rooms: 0,
-      space: 0,
-    },
-  },
-  {
-    id: 1,
-    home_name: "home 1",
-    home_type: "APPARTMENT",
-    address: {
-      city: "leipzig",
-      house_number: 15,
-      plz: "00000",
-      street: "street",
-      position: { lat: 0, lng: 0 },
-    },
-    agent: {
-      id: 0,
-      agent_email: "",
-      agent_facebook: "",
-      agent_img: "",
-      agent_job: "",
-      agent_phone: "",
-      agent_name: "",
-      agent_twitter: "",
-    },
-    features: {
-      balcony: false,
-      clubhouse: false,
-      dishwasher: false,
-      elevator: false,
-      fitness_center: false,
-      modern_kitchen: false,
-      pet_friendly: false,
-      pool: false,
-      spa: false,
-    },
-    gallery_images: [
-      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
-    ],
-    listing_text: "",
-    property_type: "RENT",
-    rent: 220,
-    specifications: {
-      baths: 0,
-      rooms: 0,
-      space: 0,
-    },
-  },
-  {
-    id: 2,
-    home_name: "home 1",
-    home_type: "APPARTMENT",
-    address: {
-      city: "leipzig",
-      house_number: 15,
-      plz: "00000",
-      street: "street",
-      position: { lat: 0, lng: 0 },
-    },
-    agent: {
-      id: 0,
-      agent_email: "",
-      agent_facebook: "",
-      agent_img: "",
-      agent_job: "",
-      agent_phone: "",
-      agent_name: "",
-      agent_twitter: "",
-    },
-    features: {
-      balcony: false,
-      clubhouse: false,
-      dishwasher: false,
-      elevator: false,
-      fitness_center: false,
-      modern_kitchen: false,
-      pet_friendly: false,
-      pool: false,
-      spa: false,
-    },
-    gallery_images: [
-      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
-    ],
-    listing_text: "",
-    property_type: "RENT",
-    rent: 220,
-    specifications: {
-      baths: 0,
-      rooms: 0,
-      space: 0,
-    },
-  },
-  {
-    id: 3,
-    home_name: "home 1",
-    home_type: "APPARTMENT",
-    address: {
-      city: "leipzig",
-      house_number: 15,
-      plz: "00000",
-      street: "street",
-      position: { lat: 0, lng: 0 },
-    },
-    agent: {
-      id: 0,
-      agent_email: "",
-      agent_facebook: "",
-      agent_img: "",
-      agent_job: "",
-      agent_phone: "",
-      agent_name: "",
-      agent_twitter: "",
-    },
-    features: {
-      balcony: false,
-      clubhouse: false,
-      dishwasher: false,
-      elevator: false,
-      fitness_center: false,
-      modern_kitchen: false,
-      pet_friendly: false,
-      pool: false,
-      spa: false,
-    },
-    gallery_images: [
-      "https://cdn.vox-cdn.com/thumbor/frFQQhOsxl8DctGjkR8OLHpdKMs=/0x0:3686x2073/1200x800/filters:focal(1549x743:2137x1331)/cdn.vox-cdn.com/uploads/chorus_image/image/68976842/House_Tour_Liverman_3D6A3138_tour.0.jpg",
-    ],
-    listing_text: "",
-    property_type: "RENT",
-    rent: 220,
-    specifications: {
-      baths: 0,
-      rooms: 0,
-      space: 0,
-    },
-  },
-];
+const user = authStore.getUser;
 
-const user: User = {
-  id: 0,
-  username: "alex",
-  email: "my@email.com",
-  adsHomes: [],
-  wishlistedHomes: wishlistHomes,
-};
+function logout() {
+  authStore.LOGOUT().then(() => {
+    router.push("/");
+  });
+}
 </script>
 
 <template>
@@ -281,6 +105,16 @@ const user: User = {
             arrowColorChildActiveHover: '3e8ed0',
           }"
         />
+
+        <n-button
+          class="w-3/4 ml-5 my-4 bottom-0 absolute bg-[#FF3860]"
+          color="#FF3860"
+          size="large"
+          strong
+          @click="logout()"
+        >
+          Log Out
+        </n-button>
       </n-layout-sider>
 
       <n-layout>
@@ -292,11 +126,16 @@ const user: User = {
           leave-to-class="-translate-y-7 opacity-0"
         >
           <MyInfo :user="user" v-if="activeKey === 'my-info'" />
+
           <MyWishlist
-            :homes="user.wishlistedHomes"
+            :homes="user ? user.wishlisted : []"
             v-else-if="activeKey === 'wishlist'"
           />
-          <MyAds :homes="user.adsHomes" v-else-if="activeKey === 'ads'" />
+
+          <MyAds
+            :homes="user ? user.created : []"
+            v-else-if="activeKey === 'ads'"
+          />
         </Transition>
       </n-layout>
     </n-layout>

@@ -12,7 +12,12 @@ import type {
 
 const defaultState = (): AuthState => {
   return {
-    user: useLocalStorage("user", undefined),
+    user: useLocalStorage("user", undefined, {
+      serializer: {
+        read: (us: string) => JSON.parse(us),
+        write: (u: User) => JSON.stringify(u),
+      },
+    }),
     token: useLocalStorage("token", ""),
     refreshToken: useLocalStorage("refreshToken", ""),
   };

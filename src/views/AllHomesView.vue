@@ -93,6 +93,7 @@ onUnmounted(() => {
 <template>
   <main>
     <SiteHeader :with-search="false" />
+
     <div class="columns">
       <div class="column is-one-quarter">
         <div
@@ -115,59 +116,81 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="column h-full overflow-y-auto is-half m-4" v-show="!showMap">
-        <h2 class="text-2xl font-semibold">{{ headerText }}</h2>
-        <HomeListingCard
-          v-for="index in entriesToDisplay"
-          :key="index"
-          :home="homeListings[index]"
-          type="wide"
-          class="my-4"
-          :show-agent="false"
-        />
-      </div>
-      <div v-if="showMap" class="column is-three-quarters h-1/2">
-        <HomesMap map-height="46rem" :home-markers="mapMarkers" />
-      </div>
-      <div v-else class="column is-one-fifth" />
-    </div>
-    <div class="flex flex-row justify-center" v-show="!showMap">
-      <nav
-        class="pagination is-centered w-[80%]"
-        role="navigation"
-        aria-label="pagination"
+
+      <Transition
+        mode="out-in"
+        enter-active-class="duration-300 ease-out transition-all"
+        enter-from-class="translate-y-7 opacity-0"
+        leave-active-class="duration-300 ease-out transition-all"
+        leave-to-class="-translate-y-7 opacity-0"
       >
-        <a
-          class="pagination-previous"
-          :class="{ 'is-disabled': cP == 1 }"
-          @click="prevPage"
-        >
-          Previous
-        </a>
-        <a
-          class="pagination-next"
-          @click="nextPage"
-          :class="{
-            'is-disabled': cP == pagesCount.length,
-          }"
-        >
-          Next page
-        </a>
-        <ul class="pagination-list">
-          <li v-for="pageNumber in pagesToDisplay" :key="pageNumber">
-            <a
-              v-if="!(pageNumber < 0)"
-              class="pagination-link"
-              :class="{ 'is-current': cP == pageNumber }"
-              @click="navPage(pageNumber)"
-            >
-              {{ pageNumber }}
-            </a>
-            <span v-else class="pagination-ellipsis">&hellip;</span>
-          </li>
-        </ul>
-      </nav>
+        <div v-if="showMap" class="column is-three-quarters h-1/2">
+          <HomesMap map-height="46rem" :home-markers="mapMarkers" />
+        </div>
+
+        <div v-else class="column h-full overflow-y-auto is-half m-4">
+          <h2 class="text-2xl font-semibold">{{ headerText }}</h2>
+          <HomeListingCard
+            v-for="index in entriesToDisplay"
+            :key="index"
+            :home="homeListings[index]"
+            type="wide"
+            class="my-4"
+            :show-agent="false"
+          />
+        </div>
+      </Transition>
+
+      <div v-show="!showMap" class="column is-one-fifth" />
     </div>
+
+    <Transition
+      enter-active-class="duration-300 ease-out"
+      enter-from-class="transform opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="duration-300 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="transform opacity-0"
+    >
+      <div class="flex flex-row justify-center" v-show="!showMap">
+        <nav
+          class="pagination is-centered w-[80%]"
+          role="navigation"
+          aria-label="pagination"
+        >
+          <a
+            class="pagination-previous"
+            :class="{ 'is-disabled': cP == 1 }"
+            @click="prevPage"
+          >
+            Previous
+          </a>
+          <a
+            class="pagination-next"
+            @click="nextPage"
+            :class="{
+              'is-disabled': cP == pagesCount.length,
+            }"
+          >
+            Next page
+          </a>
+          <ul class="pagination-list">
+            <li v-for="pageNumber in pagesToDisplay" :key="pageNumber">
+              <a
+                v-if="!(pageNumber < 0)"
+                class="pagination-link"
+                :class="{ 'is-current': cP == pageNumber }"
+                @click="navPage(pageNumber)"
+              >
+                {{ pageNumber }}
+              </a>
+              <span v-else class="pagination-ellipsis">&hellip;</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </Transition>
+
     <SiteFooter />
   </main>
 </template>

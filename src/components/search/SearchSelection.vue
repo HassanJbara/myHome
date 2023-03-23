@@ -30,7 +30,7 @@ const emit = defineEmits<{
     <span class="font-semibold self-center">{{ title }}:</span>
     <n-select
       :value="choice"
-      @change="update($event)"
+      @update-value="update($event)"
       :options="options"
       clearable
     />

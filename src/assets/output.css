@@ -545,6 +545,10 @@ video {
   top: 2.5rem;
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
 .right-32 {
   right: 8rem;
 }
@@ -648,6 +652,10 @@ video {
 
 .-mb-2 {
   margin-bottom: -0.5rem;
+}
+
+.ml-5 {
+  margin-left: 1.25rem;
 }
 
 .mt-0 {
@@ -956,6 +964,11 @@ video {
 .bg-\[\#00d1b2\] {
   --tw-bg-opacity: 1;
   background-color: rgb(0 209 178 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#FF3860\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 56 96 / var(--tw-bg-opacity));
 }
 
 .p-2 {

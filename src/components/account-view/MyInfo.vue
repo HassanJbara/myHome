@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { User } from "@/modules";
+import { useAuthStore } from "@/stores";
 
 import {
   NDivider,
@@ -12,12 +13,17 @@ import { ref } from "vue";
 import InlineSvg from "vue-inline-svg";
 
 interface Props {
-  user: User;
+  user: User | undefined;
 }
 
 const props = defineProps<Props>();
 
-const userRef = ref<User>(props.user);
+// const authStore = useAuthStore();
+
+// const user = authStore.getUser;
+
+const newUsername = ref<string>();
+const newEmail = ref<string>();
 const editing = ref<boolean>(false);
 const passwordEdit = ref<boolean>(false);
 const passwordInfo = ref({
@@ -37,6 +43,7 @@ const passwordInfo = ref({
           height="30"
           fill="black"
         />
+
         <header class="font-bold text-2xl">My Account</header>
       </div>
 
@@ -108,12 +115,12 @@ const passwordInfo = ref({
             leave-active-class="duration-150 ease-out transition-all"
             leave-to-class="-translate-y-7 opacity-0"
           >
-            <span v-if="!editing" class="text-lg">{{ user.username }}</span>
+            <span v-if="!editing" class="text-lg">{{ user?.username }}</span>
             <n-input
               v-else
               type="text"
-              :placeholder="user.username"
-              v-model:value="userRef.username"
+              :placeholder="user?.username"
+              v-model:value="newUsername"
             />
           </Transition>
 
@@ -125,12 +132,12 @@ const passwordInfo = ref({
             leave-active-class="duration-150 ease-out transition-all"
             leave-to-class="-translate-y-7 opacity-0"
           >
-            <span v-if="!editing" class="text-lg">{{ user.email }}</span>
+            <span v-if="!editing" class="text-lg">{{ user?.email }}</span>
             <n-input
               v-else
               type="text"
-              :placeholder="user.email"
-              v-model:value="userRef.email"
+              :placeholder="user?.email"
+              v-model:value="newEmail"
             />
           </Transition>
 

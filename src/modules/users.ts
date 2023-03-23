@@ -5,8 +5,8 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  wishlistedHomes: Home[];
-  adsHomes: Home[];
+  wishlisted: Home[];
+  created: Home[];
 }
 
 export interface AuthCredentials {
