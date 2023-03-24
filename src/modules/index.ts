@@ -21,4 +21,5 @@ export type {
   AuthState,
   RegisterCredentials,
   RegisterError,
+  WishlistListCallback,
 } from "./users";

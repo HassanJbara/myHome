@@ -33,3 +33,8 @@ export interface AuthState {
   token: RemovableRef<string>;
   refreshToken: RemovableRef<string>;
 }
+
+export interface WishlistListCallback {
+  msg: string;
+  wishlisted: Home[];
+}
