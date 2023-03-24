@@ -6,6 +6,7 @@ import { useAuthStore } from "@/stores";
 import InlineSvg from "vue-inline-svg";
 import { NCarousel, NButton, useMessage } from "naive-ui";
 import { inject, ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 
 interface Props {
   home: Home;
@@ -23,10 +24,13 @@ const showHeart = ref<boolean>(false);
 
 const authStore = useAuthStore();
 const msg = useMessage();
+const { user } = storeToRefs(authStore);
 
 const wishlistedRef = computed(() => {
-  if (authStore.getUser) {
-    return authStore.getUser.wishlisted.includes(props.home);
+  if (user.value) {
+    return (
+      user.value.wishlisted.filter((h) => h.id == props.home.id).length > 0
+    );
   } else {
     return undefined;
   }
@@ -43,8 +47,10 @@ function wishlist() {
         authStore.getToken
       )
       .then(() => {
-        authStore.ADD_TO_WISHLIST(props.home);
-        msg.info("Home Wishlisted");
+        authStore.ADD_TO_WISHLIST()?.then(() => {
+          if (wishlistedRef.value) msg.info("Home Wishlisted");
+          else msg.info("Home removed from wishlist.");
+        });
       });
   }
 }

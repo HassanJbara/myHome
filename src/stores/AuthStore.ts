@@ -92,9 +92,11 @@ export const useAuthStore = defineStore("auth", {
       this.refreshToken = refreshToken;
     },
 
-    ADD_TO_WISHLIST(newHome: Home) {
-      if (this.user) {
-        this.user.wishlisted.push(newHome);
+    ADD_TO_WISHLIST() {
+      if (this.isAuthenticated) {
+        return api.users.wishlisted_list(this.token).then(({ data }) => {
+          this.user.wishlisted = data.wishlisted;
+        });
       } else {
         console.error("Not logged in, can't wishlist!");
       }
