@@ -10,9 +10,10 @@ import {
   HomeListingView,
   AddPropertyView,
   NotFoundView,
+  OwnAccountView,
 } from "@/views";
 
-import { useHomesStore } from "@/stores";
+import { useAuthStore, useHomesStore } from "@/stores";
 
 const routes = [
   { path: "/", component: MainPageView },
@@ -42,6 +43,21 @@ const routes = [
     path: "/add-property",
     name: "add-property",
     component: AddPropertyView,
+  },
+  {
+    path: "/own-account",
+    name: "own-account",
+    component: OwnAccountView,
+    beforeEnter() {
+      // This needs improving!
+
+      const authStore = useAuthStore();
+      if (!authStore.getUser) {
+        return {
+          path: "/",
+        };
+      }
+    },
   },
   {
     path: "/:pathMatch(.*)*",

@@ -90,3 +90,8 @@ export interface HomesSearch {
   features: string | undefined;
   rent: number | undefined;
 }
+
+export interface HomesWishlistRequest {
+  wishlisted_home_id: number;
+  wishlisting_user_id: number;
+}

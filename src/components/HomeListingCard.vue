@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { Home } from "@/modules";
+import api from "@/api";
+import { useAuthStore } from "@/stores";
 
 import InlineSvg from "vue-inline-svg";
-import { NCarousel } from "naive-ui";
-import { inject } from "vue";
+import { NCarousel, NButton, useMessage } from "naive-ui";
+import { inject, ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 
 interface Props {
   home: Home;
@@ -11,16 +14,55 @@ interface Props {
   showAgent?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: "tall",
   showAgent: true,
 });
 
 const mobile = inject<boolean>("isMobile", false);
+const showHeart = ref<boolean>(false);
+
+const authStore = useAuthStore();
+const msg = useMessage();
+const { user } = storeToRefs(authStore);
+
+const wishlistedRef = computed(() => {
+  if (user.value) {
+    return (
+      user.value.wishlisted.filter((h) => h.id == props.home.id).length > 0
+    );
+  } else {
+    return undefined;
+  }
+});
+
+function wishlist() {
+  if (authStore.getUser) {
+    api.homes
+      .wishlistProperty(
+        {
+          wishlisted_home_id: props.home.id,
+          wishlisting_user_id: authStore.getUser.id,
+        },
+        authStore.getToken
+      )
+      .then(() => {
+        authStore.ADD_TO_WISHLIST()?.then(() => {
+          if (wishlistedRef.value) msg.info("Home Wishlisted");
+          else msg.info("Home removed from wishlist.");
+        });
+      });
+  }
+}
 </script>
 
 <template>
-  <div class="card" v-if="type == 'tall'">
+  <div
+    class="card"
+    v-if="type == 'tall'"
+    @mouseover="showHeart = true"
+    @mouseleave="showHeart = false"
+  >
     <div class="card-image">
       <div
         class="z-50 text-white font-semibold absolute left-0 top-0 p-1 rounded-sm"
@@ -32,6 +74,27 @@ const mobile = inject<boolean>("isMobile", false);
       >
         {{ home.property_type }}
       </div>
+
+      <n-button
+        v-if="authStore.isAuthenticated"
+        class="z-50 absolute top-0 right-0 p-4 ease-in-out duration-300"
+        :class="showHeart ? '  opacity-1' : ' opacity-0'"
+        text
+        style="font-size: 24px"
+        @click="wishlist()"
+      >
+        <InlineSvg
+          :src="
+            wishlistedRef
+              ? '/icons/heart-solid.svg'
+              : '/icons/heart-regular.svg'
+          "
+          width="30"
+          height="30"
+          fill="#ff6e8b"
+        />
+      </n-button>
+
       <n-carousel
         :show-arrow="home.gallery_images.length > 1"
         :show-dots="home.gallery_images.length > 1"

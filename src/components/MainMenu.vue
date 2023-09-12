@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { useHomesStore } from "@/stores";
+import { NModal } from "naive-ui";
+import InlineSvg from "vue-inline-svg";
+import { ref } from "vue";
+
+import { useHomesStore, useAuthStore } from "@/stores";
+import { UserLoginSignup } from "@/components";
+
+const showLoginModal = ref(false);
+const showSignupModal = ref(false);
 
 const HomesStore = useHomesStore();
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -56,15 +65,56 @@ const HomesStore = useHomesStore();
               <strong>Add Propery</strong>
             </router-link>
 
-            <a class="button is-light">
+            <router-link
+              class="button is-info"
+              :to="{ name: 'own-account' }"
+              v-show="authStore.isAuthenticated"
+            >
+              <inline-svg
+                src="/icons/user-solid.svg"
+                width="30"
+                height="30"
+                fill="white"
+              />
+            </router-link>
+
+            <a
+              class="button is-light"
+              @click="showSignupModal = true"
+              v-show="!authStore.isAuthenticated"
+            >
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light"> Log in </a>
+            <n-modal
+              v-model:show="showSignupModal"
+              preset="card"
+              title="Account Information"
+              class="w-1/4 h-[600px]"
+            >
+              <UserLoginSignup
+                type="signup"
+                @exit="() => (showSignupModal = false)"
+              />
+            </n-modal>
+
+            <a
+              class="button is-light"
+              @click="showLoginModal = true"
+              v-show="!authStore.isAuthenticated"
+            >
+              Log in
+            </a>
+            <n-modal
+              v-model:show="showLoginModal"
+              preset="card"
+              title="Account Information"
+              class="w-1/4 h-[600px]"
+            >
+              <UserLoginSignup type="login" @exit="showLoginModal = false" />
+            </n-modal>
           </div>
         </div>
       </div>
     </div>
   </nav>
 </template>
-
-<style></style>
