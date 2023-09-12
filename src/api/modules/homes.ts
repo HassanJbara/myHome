@@ -37,7 +37,7 @@ const homes = {
 
   getPlaceID: (location: string, key: string) => {
     return axios.get(
-      "https://aiham-cors-proxy.herokuapp.com/" +
+      "CORS-PROXY-URL" +
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       {
         params: {

@@ -23,7 +23,7 @@ const isMobile = computed(() => {
   }
 });
 
-const mapsKey = "AIzaSyCN6tP3i10XQ2uBISjbG8kqSI-H-w54TVo";
+const mapsKey = "YOURKEY";
 
 app.use(VueEasyLightbox);
 app.use(createPinia());

@@ -15,5 +15,5 @@ export const axiosWithAuth = axios.create({
 // export const axiosMAPS = axios.create({
 //   withCredentials: false,
 //   timeout: 28000,
-//   baseURL: "https://aiham-cors-proxy.herokuapp.com/",
+//   baseURL: "",
 // });
